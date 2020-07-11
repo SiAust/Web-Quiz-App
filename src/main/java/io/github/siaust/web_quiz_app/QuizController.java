@@ -1,52 +1,50 @@
 package io.github.siaust.web_quiz_app;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class QuizController {
 
-    List<Quiz> quizzes = new ArrayList<>();
-
     public QuizController() {}
 
+    /* *** POST request mappings *** */
+
     /* Mapping for adding a quiz POST */
-    @PostMapping(path = "/quiz")
-    public void addQuiz(@RequestBody Quiz quiz) {
-        quizzes.add(quiz);
-        System.out.println(quiz);
+    @PostMapping(path = "api/quizzes", produces = "application/json")
+    public Quiz addQuiz(@RequestBody Quiz quiz) {
+        QuizModel.addQuiz(quiz);
+        return quiz;
     }
 
-    /* Mapping for user answer POST */
-    @RequestMapping(path = "/api/quiz", method = RequestMethod.POST)
-    public ResponseEntity<String> answerQuiz(@RequestParam("answer") int answer) {
-        QuizModel.setAnswer(answer);
-        System.out.println("answer: " + answer);
+    /* Mapping for user answer attempt POST */
+    @RequestMapping(path = "/api/quizzes/{id}/solve", method = RequestMethod.POST)
+    public Feedback answerQuiz(@RequestParam("answer") int answer,
+                               @PathVariable int id) {
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Content-Type", "application/json");
+        Feedback feedback = new Feedback();
+        feedback.setFeedBack(QuizModel.getQuiz(id).getAnswer() == answer);
 
-        String body;
-
-        if (QuizModel.getAnswer() == 2) {
-            body = "{\"success\":true,\"feedback\":\"Congratulations, you're right!\"}";
-        } else {
-            body = "{\"success\":false,\"feedback\":\"Wrong answer! Please, try again.\"}";
-        }
-        return ResponseEntity.ok()
-                .headers(httpHeaders)
-                .body(body);
+        return feedback;
     }
 
-    /* Mapping for user request GET quiz */
-    @RequestMapping(value = "/api/quiz", method = RequestMethod.GET)
-//    @ResponseBody
-    public Quiz getQuiz() {
-        return QuizModel.getQuiz(0);
+    /* *** GET request mappings *** */
+
+    /* Mapping for user request GET quiz with ID */
+    @RequestMapping(value = "/api/quizzes/{id}", method = RequestMethod.GET)
+    public Quiz getQuiz(@PathVariable int id) {
+        return QuizModel.getQuiz(id);
     }
 
+    /* Mapping for user request GET all quizzes */
+    @RequestMapping(value = "/api/quizzes", method = RequestMethod.GET)
+    public Quiz[] getAllQuizzes() {
+        return QuizModel.getQuiz();
+    }
+
+    /* Spring will catch the exception and return a HTTP status */
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleException() {
+    }
 }

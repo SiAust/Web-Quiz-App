@@ -7,26 +7,28 @@ public class QuizModel {
 
     private static final List<Quiz> quizList = new ArrayList<>();
 
-    private static int answer;
+     /* For testing so I can make GET requests before POSTing a quiz */
+    /*static {
+        Quiz quiz = new Quiz("The Java Logo", "What is depicted on the Java logo?",
+                new String[] {"Robot", "Tea leaf", "Cup of coffee", "Bug"}, 2);
+        addQuiz(quiz);
+    }*/
 
-    static {
-        addQuiz(new Quiz("The Java Logo", "What is depicted on the Java logo?",
-                new String[] {"Robot", "Tea leaf", "Cup of coffee", "Bug"}));
+    public static Quiz[] getQuiz() {
+        Quiz[] quizzes = new Quiz[quizList.size()];
+        for (int i = 0; i < quizList.size(); i++) {
+            quizzes[i] = quizList.get(i);
+        }
+        return quizzes;
     }
 
     public static Quiz getQuiz(int id) {
-        return quizList.get(id);
+        return quizList.get(id -1);
     }
 
     public static void addQuiz(Quiz quiz) {
+        System.out.println(quiz);
+        quiz.setId(quizList.size() + 1);
         quizList.add(quiz);
-    }
-
-    public static int getAnswer() {
-        return answer;
-    }
-
-    public static void setAnswer(int answer) {
-        QuizModel.answer = answer;
     }
 }
