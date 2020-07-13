@@ -27,7 +27,6 @@ public class QuizModel {
     }
 
     public static void addQuiz(Quiz quiz) {
-        System.out.println(quiz);
         quiz.setId(quizList.size() + 1);
         quizList.add(quiz);
     }
