@@ -1,47 +1,64 @@
 package io.github.siaust.web_quiz_app;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class QuizController {
 
-    public QuizController() {}
+    private QuizRepository quizRepository;
+
+    public QuizController() {
+    }
+
+    @Autowired
+    public QuizController(QuizRepository quizRepository) {
+        this.quizRepository = quizRepository;
+    }
 
     /* *** POST request mappings *** */
 
     /* Mapping for adding a quiz POST */
     @PostMapping(path = "api/quizzes", produces = "application/json")
     public Quiz addQuiz(@Valid @RequestBody Quiz quiz) {
-        QuizModel.addQuiz(quiz);
+
+        /* Quiz has to be explicitly set for each option and answer (for FK id purposes) */
+        quiz.getOptions().forEach(option -> option.setQuiz(quiz));
+        quiz.getAnswers().forEach(answer -> answer.setQuiz(quiz));
+
         System.out.println(quiz);
+
+        quizRepository.save(quiz);
+
         return quiz;
     }
 
     /* Mapping for user answer attempt POST */
     @RequestMapping(path = "/api/quizzes/{id}/solve", method = RequestMethod.POST)
-    public Feedback answerQuiz(@RequestBody Answer answer,
-                               @PathVariable int id) {
-        System.out.println("POST answer array: " + Arrays.toString(answer.getAnswer()));
-        Feedback feedback = new Feedback();
+    public Feedback answerQuiz(@RequestBody List<Answer> answers,
+                               @PathVariable long id) {
+        answers.forEach(System.out::println);
+
+        Optional<Quiz> optionalQuiz = quizRepository.findById(id);
         boolean success = false;
-        if (Arrays.equals(QuizModel.getQuiz(id).getAnswer(), answer.getAnswer())) {
-            success = true;
-        } else if (QuizModel.getQuiz(id).getAnswer() == null && answer.getAnswer().length == 0) {
-            success = true;
-        } else if (QuizModel.getQuiz(id).getAnswer() != null) {
-            if (QuizModel.getQuiz(id).getAnswer().length == 0 && answer.getAnswer() == null) {
+
+        if (optionalQuiz.isPresent()) {
+            Quiz quiz = optionalQuiz.get();
+            Set<Integer> dbAnswers = quiz.getAnswers().stream().map(Answer::getAnswer).collect(Collectors.toSet());
+            Set<Integer> userAnswers = answers.stream().map(Answer::getAnswer).collect(Collectors.toSet());
+            if (dbAnswers.equals(userAnswers)) {
                 success = true;
             }
+            System.out.println("db answers: " + dbAnswers + "\n" + "user answers: " + userAnswers);
+        } else {
+            /* If no quiz at Id found */
+            throw new IndexOutOfBoundsException();
         }
+        Feedback feedback = new Feedback();
         feedback.setFeedBack(success);
         return feedback;
     }
@@ -50,21 +67,26 @@ public class QuizController {
 
     /* Mapping for user request GET quiz with ID */
     @RequestMapping(value = "/api/quizzes/{id}", method = RequestMethod.GET)
-    public Quiz getQuiz(@PathVariable int id) {
-        return QuizModel.getQuiz(id);
+    public Quiz getQuiz(@PathVariable long id) {
+        Optional<Quiz> optionalQuiz = quizRepository.findById(id);
+        if (optionalQuiz.isPresent()) {
+            return optionalQuiz.get();
+        }
+        else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     /* Mapping for user request GET all quizzes */
     @RequestMapping(value = "/api/quizzes", method = RequestMethod.GET)
-    public Quiz[] getAllQuizzes() {
-        return QuizModel.getQuiz();
+    public List<Quiz> getAllQuizzes() {
+        Iterable<Quiz> quizIterable = quizRepository.findAll();
+        List<Quiz> quizzes = new ArrayList<>();
+        quizIterable.forEach(quizzes::add);
+        if (quizzes.size() > 0) {
+            return quizzes;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
-
-    /* Replaced with ExceptionHandler class with Spring annotations */
-   /* *//* Spring will catch the exception and return a HTTP status *//*
-    @ExceptionHandler(IndexOutOfBoundsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleException(Exception e) {
-
-    }*/
 }

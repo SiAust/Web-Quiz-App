@@ -1,45 +1,58 @@
 package io.github.siaust.web_quiz_app;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
 
-
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
-import java.util.Arrays;
-
+@Component
+@Entity(name = "quiz_table")
 public class Quiz {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     @NotBlank(message = "Title must not be blank")
     private String title;
+
     @NotBlank(message = "Text must not be blank")
     private String text;
+
     @Size(min = 2)
     @NotNull
-    private String[] options;
-    @JsonIgnore
-    private int[] answer;
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Option> options;
 
-    public Quiz() {}
+    @JsonIgnore /* Ignores this JSON property in a generated response from this DTO */
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonManagedReference /* Prevents Jackson error looping JSON response */
+    private List<Answer> answers;
 
-    public Quiz(String title, String text, String[] options, int[] answer) {
-        this.id = 0;
+    public Quiz() {
+    }
+
+    public Quiz(String title, String text, List<Option> options, List<Answer> answers) {
         this.title = title;
         this.text = text;
         this.options = options;
-        this.answer = answer;
+        this.answers = answers;
     }
 
     @Override
     public String toString() {
-        return "id: " + id + " title: " + title + " text: " + text + " options: " + Arrays.toString(options)
-                + " answer: " + Arrays.toString(answer);
+        return "id: " + id + " title: " + title + " text: " + text + " options: " + options
+                + " answer: " + answers;
     }
 
-    // Getters and setters for the Spring annotation @RequestBody to function
+    /* Getters and setters for the Spring annotation @RequestBody to function */
     public String getTitle() {
         return title;
     }
@@ -56,25 +69,25 @@ public class Quiz {
         this.text = text;
     }
 
-    public String[] getOptions() {
+    public List<Option> getOptions() {
         return options;
     }
 
-    public void setOptions(String[] options) {
+    public void setOptions(List<Option> options) {
         this.options = options;
     }
 
     @JsonIgnore
-    public int[] getAnswer() {
-        return answer;
+    public List<Answer> getAnswers() {
+        return answers;
     }
 
     @JsonProperty("answer")
-    public void setAnswer(int[] answer) {
-        this.answer = answer;
+    public void setAnswers(List<Answer> answer) {
+        this.answers = answer;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

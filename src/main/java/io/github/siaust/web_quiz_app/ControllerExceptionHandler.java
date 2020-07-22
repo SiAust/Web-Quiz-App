@@ -18,7 +18,6 @@ public class ControllerExceptionHandler {
         response.put("message", "Quiz does not exist");
         response.put("error", "IndexOutOfBounds");
         return response;
-
     }
 
 }
