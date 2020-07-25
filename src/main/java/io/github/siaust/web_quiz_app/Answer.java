@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Component
 @Entity
 public class Answer {
-
+    // this should only appear in test/hyperskill branch after commit/stash
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
