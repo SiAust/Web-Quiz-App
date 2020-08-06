@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show all quizes</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<div th:switch="${quizzes}">
+    <h2 th:case="null">No users yet!</h2>
+    <div class="container" th:case="*">
+        <h2>Quizzes</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="quiz : ${quizzes}">
+                <td th:text="${quiz.id}"></td>
+                <td th:text="${quiz.title}"></td>
+                <td th:text="${quiz.text}"></td>
+                <td th:text="${quiz.options}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="bottomNav">
+        <a href="http://localhost:8080">Home</a>
+</div>
+
+</body>
+</html>

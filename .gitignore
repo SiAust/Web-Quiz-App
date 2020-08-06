@@ -33,7 +33,8 @@ out/
 
 ### My ignored files ###
 build.gradle 
-src/main/resources/
+src/main/resources/META-INF
+src/main/resources/static/img
 src/test/
 gradle/
 gradlew

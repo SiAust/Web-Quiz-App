@@ -1,4 +1,4 @@
-package io.github.siaust.web_quiz_app;
+package io.github.siaust.web_quiz_app.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;

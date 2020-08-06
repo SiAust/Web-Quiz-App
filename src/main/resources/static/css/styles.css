@@ -1,0 +1,29 @@
+.container, .bottomNav {
+    margin: auto;
+    width: 500px;
+    border: 2px blue dotted;
+    padding: 20px;
+    background-color: yellowgreen;
+    font-family: Recursive, monospace;
+}
+
+.bottomNav {
+    position: relative;
+    top: 50px;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+}
+
+li {
+    text-align: left;
+    list-style: none;
+}
+
+td {
+    padding-left: 10px;
+}
+
+#title {
+    text-align: center;
+}
