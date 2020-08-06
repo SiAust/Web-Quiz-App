@@ -1,4 +1,4 @@
-package io.github.siaust.web_quiz_app;
+package io.github.siaust.web_quiz_app.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Component
 @Entity
 public class Answer {
-    // this should only appear in test/hyperskill branch after commit/stash
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

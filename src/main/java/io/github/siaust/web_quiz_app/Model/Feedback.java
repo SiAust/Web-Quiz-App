@@ -1,4 +1,4 @@
-package io.github.siaust.web_quiz_app;
+package io.github.siaust.web_quiz_app.Model;
 
 public class Feedback {
 

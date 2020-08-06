@@ -1,8 +1,10 @@
-package io.github.siaust.web_quiz_app;
+package io.github.siaust.web_quiz_app.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.siaust.web_quiz_app.Service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -18,6 +20,9 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Won't send in JSON response
+    private long userId;
 
     @NotBlank(message = "Title must not be blank")
     private String title;
@@ -95,4 +100,11 @@ public class Quiz {
         this.id = id;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 }
