@@ -59,13 +59,16 @@ public class UserService implements UserDetailsService {
             throw new InvalidUserException("password too short.");
         }
 
-        // Is this handled by @Email validation?
-        /*Pattern pattern = Pattern.compile("simon\\.aust@hotmail\\.com");
-        Matcher matcher = pattern.matcher(user.getEmail());
+        // No internal emails allowed (name@address), must be name@address.com ex
+        String[] email = user.getEmail().split("@");
+        if (!email[1].contains(".")) {
+            throw new InvalidUserException("email format must not be internal");
+        }
 
-        if (!matcher.matches()) {
-            throw new InvalidUserException("email not correct format");
-        }*/
+        // Checks if a user has already registered under this email id
+        if ((userRepository.findByEmail(user.getEmail()).isPresent())) {
+            throw new InvalidUserException("user already exists");
+        }
 
         userRepository.save(user);
     }
