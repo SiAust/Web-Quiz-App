@@ -9,13 +9,13 @@ import io.github.siaust.web_quiz_app.Repository.UserRepository;
 import io.github.siaust.web_quiz_app.Service.QuizService;
 import io.github.siaust.web_quiz_app.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -94,17 +94,29 @@ public class QuizController {
         }
     }
 
-    /* Mapping for user request GET all quizzes */
+    /* Mapping for user request GET all quizzes */ // todo: add requestParams for paging
     @RequestMapping(value = "/api/quizzes", method = RequestMethod.GET)
-    public List<Quiz> getAllQuizzes() {
-        Iterable<Quiz> quizIterable = quizRepository.findAll();
-        List<Quiz> quizzes = new ArrayList<>();
-        quizIterable.forEach(quizzes::add);
-        if (quizzes.size() > 0) {
-            return quizzes;
-        } else {
-            throw new QuizNotFoundException("No quizzes found");
-        }
+    public Page<Quiz> getAllQuizzes(@RequestParam(defaultValue = "0") int pageNo,
+                                    @RequestParam(defaultValue = "10") int pageSize,
+                                    @RequestParam(defaultValue = "id") String sortBy) {
+
+        System.out.println("pageNo: " + pageNo + "\npageSize: " + pageSize + "\nsortBy: " + sortBy);
+
+        Page<Quiz> quizzes = QuizService.getQuizzes(pageNo, pageSize, sortBy);
+//        if (quizzes.isEmpty()) {
+//            throw new QuizNotFoundException("No quizzes found");
+//        }
+
+        return quizzes;
+
+//        Iterable<Quiz> quizIterable = quizRepository.findAll();
+//        List<Quiz> quizzes = new ArrayList<>();
+//        quizIterable.forEach(quizzes::add);
+//        if (quizzes.size() > 0) {
+//            return quizzes;
+//        } else {
+//            throw new QuizNotFoundException("No quizzes found");
+//        }
     }
 
     /* DELETE mapping */

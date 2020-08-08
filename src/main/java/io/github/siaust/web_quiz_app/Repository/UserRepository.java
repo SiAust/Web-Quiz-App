@@ -1,6 +1,7 @@
 package io.github.siaust.web_quiz_app.Repository;
 
 import io.github.siaust.web_quiz_app.Model.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

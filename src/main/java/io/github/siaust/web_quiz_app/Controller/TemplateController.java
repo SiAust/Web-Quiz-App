@@ -44,7 +44,7 @@ public class TemplateController {
         return "quiz";
     }
 
-    /* Shows all the users in the databse */
+    /* Shows all the users in the database */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String getUsers(Model model) {
         model.addAttribute("users", userRepository.findAll());
