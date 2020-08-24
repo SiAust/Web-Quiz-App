@@ -1,35 +1,41 @@
 package io.github.siaust.web_quiz_app.Controller;
 
-import io.github.siaust.web_quiz_app.Model.Answer;
-import io.github.siaust.web_quiz_app.Model.Feedback;
-import io.github.siaust.web_quiz_app.Model.Quiz;
+import io.github.siaust.web_quiz_app.Model.*;
 import io.github.siaust.web_quiz_app.Exception.QuizNotFoundException;
+import io.github.siaust.web_quiz_app.Repository.CompletedRepository;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
-import io.github.siaust.web_quiz_app.Repository.UserRepository;
+import io.github.siaust.web_quiz_app.Service.CompletedService;
 import io.github.siaust.web_quiz_app.Service.QuizService;
 import io.github.siaust.web_quiz_app.Service.UserService;
+import org.apache.tomcat.jni.Local;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 public class QuizController {
 
+    Logger logger = LoggerFactory.getLogger(QuizController.class);
+
     private QuizRepository quizRepository;
+    private CompletedRepository completedRepository;
 
     public QuizController() {
     }
 
     @Autowired
-    public QuizController(QuizRepository quizRepository, UserRepository userRepository) {
+    public QuizController(QuizRepository quizRepository, CompletedRepository completedRepository) {
         this.quizRepository = quizRepository;
+        this.completedRepository = completedRepository;
     }
 
     /* *** POST request mappings *** */
@@ -46,9 +52,10 @@ public class QuizController {
                 .getContext().getAuthentication()
                 .getName()));
 
-        System.out.println(quiz);
+//        System.out.println(quiz);
 
         quizRepository.save(quiz);
+        logger.info("POST request: api/quizzes Body: " + quiz);
 
         return quiz;
     }
@@ -69,6 +76,12 @@ public class QuizController {
             Set<Integer> userAnswers = answers.stream().map(Answer::getAnswer).collect(Collectors.toSet());
             if (dbAnswers.equals(userAnswers)) {
                 success = true;
+                /* Get the current username from currently logged in user */
+                long userID = UserService.findUserID(SecurityContextHolder.getContext()
+                        .getAuthentication().getName());
+                /* Save a completion of the quiz to the COMPLETED_TABLE */
+                completedRepository.save(new Completed(quiz.getId(),
+                        LocalDateTime.now(), userID));
             }
             System.out.println("db answers: " + dbAnswers + "\n" + "user answers: " + userAnswers);
         } else {
@@ -77,6 +90,7 @@ public class QuizController {
         }
         Feedback feedback = new Feedback();
         feedback.setFeedBack(success);
+
         return feedback;
     }
 
@@ -88,8 +102,7 @@ public class QuizController {
         Optional<Quiz> optionalQuiz = quizRepository.findById(id);
         if (optionalQuiz.isPresent()) {
             return optionalQuiz.get();
-        }
-        else {
+        } else {
             throw new QuizNotFoundException((int) id);
         }
     }
@@ -102,21 +115,21 @@ public class QuizController {
 
         System.out.println("pageNo: " + pageNo + "\npageSize: " + pageSize + "\nsortBy: " + sortBy);
 
-        Page<Quiz> quizzes = QuizService.getQuizzes(pageNo, pageSize, sortBy);
-//        if (quizzes.isEmpty()) {
-//            throw new QuizNotFoundException("No quizzes found");
-//        }
+        return QuizService.getQuizzes(pageNo, pageSize, sortBy);
+    }
 
-        return quizzes;
+    @RequestMapping(value = "/api/quizzes/completed", method = RequestMethod.GET)
+    public Page<Completed> getAllCompletions(@RequestParam(defaultValue = "0") int pageNo,
+                                             @RequestParam(defaultValue = "10") int pageSize,
+                                             @RequestParam(defaultValue = "completed_at") String sortBy) {
 
-//        Iterable<Quiz> quizIterable = quizRepository.findAll();
-//        List<Quiz> quizzes = new ArrayList<>();
-//        quizIterable.forEach(quizzes::add);
-//        if (quizzes.size() > 0) {
-//            return quizzes;
-//        } else {
-//            throw new QuizNotFoundException("No quizzes found");
-//        }
+        // this is the current user. Use this as a param when getting completed quizzes by id
+        String currentUser = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+        long userID = UserService.findUserID(currentUser);
+
+        return CompletedService.getCompletions(pageNo, pageSize, sortBy, userID);
     }
 
     /* DELETE mapping */

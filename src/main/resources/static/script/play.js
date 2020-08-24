@@ -1,25 +1,8 @@
 let variable = new XMLHttpRequest();
 
-let button = document.getElementById("submit")
+let answerBtn = document.getElementById("answer")
 
-// button.addEventListener("click",function () {
-//     variable.open("GET", "/api/quizzes", true,
-//         "simon.aust@hotmail.com", "password")
-//     variable.send()
-//     let json = {name: "Simon",
-//     title: "The Journey to Software Developer"}
-//     let myJSONobj = JSON.parse(json.title)
-//     console.log(myJSONobj.title)
-//     document.getElementById("content").innerHTML =
-//         variable.responseText
-//     console.log("***")
-//     console.log(variable.responseText)
-//     console.log("***")
-// });
-
-let helloButton = document.getElementById("hello")
-
-helloButton.addEventListener("click", function () {
+answerBtn.addEventListener("click", function () {
     console.log("Hello button clicked")
     variable.open("GET", "/api/quizzes", true,
         "simon.aust@hotmail.com", "password")

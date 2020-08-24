@@ -79,9 +79,4 @@ public class QuizService {
         }
 
     }
-
-    /*@Autowired
-    public static void setQuizRepository(QuizRepository quizRepository) {
-        QuizService.quizRepository = quizRepository;
-    }*/
 }
