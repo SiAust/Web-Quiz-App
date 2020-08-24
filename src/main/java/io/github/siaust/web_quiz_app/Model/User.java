@@ -9,31 +9,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
 public class User {
 
-//    @Id
-//    @GeneratedValue(strategy =GenerationType.AUTO)
-//    Long id;
-//    @Column(unique = true, nullable = false)
-//    String username;
-//    @Column(nullable = false)
-//    String password;
-//    @Column(nullable = true)
-//    String firstname;
-//    @Column(nullable = true)
-//    String lastname;
-//    @Column(nullable = true)
-//    String email;
-//    @Column(nullable = false)
-//    @Enumerated(value = EnumType.STRING)
-//    Role role;
-//    @Column(nullable = false)
-//    Boolean enabled = false;
-//    @Column(nullable = false)
-//    Date dateCreate = new Date();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Column(unique = true)
     @Email
@@ -42,16 +26,13 @@ public class User {
 
     private String password;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public long getId() {
         return id;

@@ -4,20 +4,19 @@ import io.github.siaust.web_quiz_app.Exception.InvalidUserException;
 import io.github.siaust.web_quiz_app.Model.MyUserDetails;
 import io.github.siaust.web_quiz_app.Model.User;
 import io.github.siaust.web_quiz_app.Repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class UserService implements UserDetailsService {
+
+     static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private static UserRepository userRepository;
 
@@ -70,6 +69,12 @@ public class UserService implements UserDetailsService {
             throw new InvalidUserException("user already exists");
         }
 
+        logger.info("User " + user.getEmail() + " registered");
         userRepository.save(user);
+    }
+
+    public static User returnUserFromID(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElse(null);
     }
 }

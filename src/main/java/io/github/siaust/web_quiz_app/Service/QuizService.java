@@ -1,13 +1,21 @@
 package io.github.siaust.web_quiz_app.Service;
 
+import io.github.siaust.web_quiz_app.Exception.QuizNotFoundException;
 import io.github.siaust.web_quiz_app.Exception.UserAccessDenied;
 import io.github.siaust.web_quiz_app.Model.Quiz;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +27,29 @@ public class QuizService {
     public QuizService(QuizRepository quizRepository) {
         QuizService.quizRepository = quizRepository;
     }
+
     public static void addQuiz() {
+        // todo: implement this? Does adding quizzes need further validation or encapsulation?
+    }
+
+    /** Returns all the quizzes in the database. May return a paginated content if there is
+     * enough entries in the list?
+     * @return A List of Quiz objects
+     * @param pageNo The current page of returned items out of the set
+     * @param pageSize Number of items in a page
+     * @param sortBy The method of sorting, by "ID", any other column property I guess
+     * */
+    public static Page<Quiz> getQuizzes(int pageNo, int pageSize, String sortBy) {
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        return quizRepository.findAll(pageable);
+
+//        if (pagedResult.hasContent()) {
+//            return pagedResult;
+//        } else {
+//            throw new QuizNotFoundException("No quizzes to pages?");
+//        }
     }
 
     /** @param  quizId id of the Quiz
@@ -49,9 +79,4 @@ public class QuizService {
         }
 
     }
-
-    /*@Autowired
-    public static void setQuizRepository(QuizRepository quizRepository) {
-        QuizService.quizRepository = quizRepository;
-    }*/
 }
