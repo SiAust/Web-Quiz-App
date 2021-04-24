@@ -1,29 +1,40 @@
 .container, .bottomNav {
-    margin: auto;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 0 auto 10px auto;
     width: 500px;
+    height: 50px;
     border: 2px blue dotted;
     padding: 20px;
     background-color: yellowgreen;
     font-family: Recursive, monospace;
+    text-align: center;
+}
+
+.main {
+    flex-direction: column;
+    height: 200px;
 }
 
 .bottomNav {
     position: relative;
-    top: 50px;
     padding: 10px;
     width: 100px;
     text-align: center;
 }
 
-li {
-    text-align: left;
-    list-style: none;
+button {
+    height: 50px;
+    width: 100px;
+    border: 2px blue dotted;
+    margin: 5px;
+    background-color: yellowgreen;
+    font-family: Recursive, monospace;
 }
 
-td {
-    padding-left: 10px;
-}
-
-#title {
-    text-align: center;
+.center {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
 }

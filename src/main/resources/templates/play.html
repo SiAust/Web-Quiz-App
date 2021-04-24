@@ -8,28 +8,32 @@
 
 </head>
 <body>
-    <div class="container">
-        <p>Title</p>
-        <p id="content">Content</p>
-        <p>Options form</p>
-        <form>
-            <input type="checkbox" id="option1" name="answer" value="option1">
-            <label for="option1">Option one</label>
-            <input type="checkbox" id="option2" name="answer" value="option2">
-            <label for="option2">Option two</label>
-            <input type="checkbox" id="option3" name="answer" value="option3">
-            <label for="option3">Option three</label>
-            <input type="checkbox" id="option4" name="answer" value="option4">
-            <label for="option4">Option four</label>
-        </form>
-        <button id="answer">Check answers</button>
+<div class="container main">
+    <p id="title"></p>
+    <p id="question"></p>
+    <form id="options">
+    </form>
+</div>
 
-    </div>
+<div class="container">
+    <p>Question <span id="current-question"></span> of <span class="total-questions"></span></p>
+</div>
 
-    <div class="bottomNav">
-          <a href="http://localhost:8080">Home</a>
-    </div>
+<div class="container">
+    <p>Score: <span id="user-score">0</span> out of <span class="total-questions"></span></p>
+</div>
 
-    <script src="script/play.js"></script>
+<div class="center">
+    <button id="check-answer">Check Answer</button>
+    <button id="next-question">Next Question</button>
+</div>
+
+<div class="center">
+    <a href="http://localhost:8080">
+        <button>Home</button>
+    </a>
+</div>
+
+<script src="script/play.js"></script>
 </body>
 </html>
