@@ -3,8 +3,6 @@ package io.github.siaust.web_quiz_app.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.siaust.web_quiz_app.Service.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -30,6 +28,8 @@ public class Quiz {
     @NotBlank(message = "Text must not be blank")
     private String text;
 
+    private boolean isMultipleChoice;
+
     @Size(min = 2)
     @NotNull
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
@@ -44,16 +44,22 @@ public class Quiz {
     public Quiz() {
     }
 
-    public Quiz(String title, String text, List<Option> options, List<Answer> answers) {
+    public Quiz(String title, String text, boolean isMultipleChoice
+            , List<Option> options, List<Answer> answers) {
         this.title = title;
         this.text = text;
+        this.isMultipleChoice = isMultipleChoice;
         this.options = options;
         this.answers = answers;
     }
 
     @Override
     public String toString() {
-        return "id: " + id + " title: " + title + " text: " + text + " options: " + options
+        return "id: " + id
+                + " title: " + title
+                + " text: " + text
+                + " isMultipleChoice: " + isMultipleChoice
+                + " options: " + options
                 + " answer: " + answers;
     }
 
@@ -72,6 +78,14 @@ public class Quiz {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public boolean isIsMultipleChoice() {
+        return isMultipleChoice;
+    }
+
+    public void setIsMultipleChoice(boolean isMultipleChoice) {
+        this.isMultipleChoice = isMultipleChoice;
     }
 
     public List<Option> getOptions() {

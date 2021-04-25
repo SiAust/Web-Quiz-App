@@ -7,14 +7,14 @@
     height: 50px;
     border: 2px blue dotted;
     padding: 20px;
-    background-color: yellowgreen;
+    background-color: aliceblue;
     font-family: Recursive, monospace;
     text-align: center;
 }
 
 .main {
     flex-direction: column;
-    height: 200px;
+    height: auto;
 }
 
 .bottomNav {
@@ -29,7 +29,7 @@ button {
     width: 100px;
     border: 2px blue dotted;
     margin: 5px;
-    background-color: yellowgreen;
+    background-color: aliceblue;
     font-family: Recursive, monospace;
 }
 
@@ -37,4 +37,9 @@ button {
     display: flex;
     justify-content: center;
     padding: 10px;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
 }

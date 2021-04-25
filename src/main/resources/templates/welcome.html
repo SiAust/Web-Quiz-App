@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container main">
         <!-- Thymeleaf attributes go within the HTML tag.
              They reference a variable from the Java code
              model in the controller method or
@@ -18,12 +18,12 @@
         If you're already registered please go play a quiz! <br>
         Otherwise register yourself below. <br>
         COYS! <br>
-        <li>
-            <ul><b>Play Quiz</b> : <a href="http://localhost:8080/play">Play</a></ul>
-            <ul><b>Register</b> : <a href=#><del>Register</del></a></ul>
-            <ul><b>Show all quizzes</b> : <a href="http://localhost:8080/quiz">All quizzes</a></ul>
-            <ul><b>Show all users</b> : <a href="http://localhost:8080/users">All users</a></ul>
-        </li>
+        <ul>
+            <li><b>Play Quiz</b> : <a href="http://localhost:8080/play">Play</a></li>
+            <li><b>Register</b> : <a href=#><del>Register</del></a></li>
+            <li><b>Show all quizzes</b> : <a href="http://localhost:8080/quiz">All quizzes</a></li>
+            <li><b>Show all users</b> : <a href="http://localhost:8080/users">All users</a></li>
+        </ul>
         
         <!-- This th:text will append from a query string
              ?q= in the URL, if absent it place an empty string
