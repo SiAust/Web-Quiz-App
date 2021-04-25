@@ -22,10 +22,10 @@ public class Answer {
 
     public Answer() {}
 
-    public Answer(Quiz quiz, int answer) {
-        this.quiz = quiz;
-        this.answer = answer;
-    }
+//    public Answer(Quiz quiz, int answer) {
+//        this.quiz = quiz;
+//        this.answer = answer;
+//    }
 
     public Answer(int answer) {
         this.answer = answer;

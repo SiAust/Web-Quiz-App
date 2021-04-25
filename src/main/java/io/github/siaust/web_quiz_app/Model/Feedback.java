@@ -1,26 +1,15 @@
 package io.github.siaust.web_quiz_app.Model;
 
+import java.util.Arrays;
+
 public class Feedback {
 
     private boolean success;
-    private String feedback;
+    private int[] answers;
 
-
-    public Feedback() {}
-
-    public void setFeedBack(boolean answer) {
-        if (answer) {
-            success = true;
-            feedback = "Congratulations, you're right!";
-            return;
-        }
-        success = false;
-        feedback = "Wrong answer! Please, try again.";
-    }
-
-    @Override
-    public String toString() {
-        return "success: " + success + " feedback: " + feedback;
+    public Feedback(boolean success, int[] answers) {
+        this.success = success;
+        this.answers = answers;
     }
 
     public boolean isSuccess() {
@@ -31,11 +20,16 @@ public class Feedback {
         this.success = success;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public int[] getAnswers() {
+        return answers;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setAnswers(int[] answers) {
+        this.answers = answers;
+    }
+
+    @Override
+    public String toString() {
+        return "success: " + success + " answers: " + Arrays.toString(answers);
     }
 }

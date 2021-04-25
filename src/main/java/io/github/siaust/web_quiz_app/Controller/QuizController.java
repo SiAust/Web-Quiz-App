@@ -26,7 +26,7 @@ public class QuizController {
 
     Logger logger = LoggerFactory.getLogger(QuizController.class);
 
-    private QuizRepository quizRepository;
+    private QuizRepository quizRepository; // todo remove direct call to repo, use QuizService etc
     private CompletedRepository completedRepository;
 
     public QuizController() {
@@ -43,7 +43,7 @@ public class QuizController {
     /* Mapping for adding a quiz */
     @PostMapping(path = "api/quizzes", produces = "application/json")
     public Quiz addQuiz(@Valid @RequestBody Quiz quiz) {
-
+        logger.info("POST new Quiz - {}", quiz);
         /* Quiz has to be explicitly set for each option and answer (for FK id purposes) */
         quiz.getOptions().forEach(option -> option.setQuiz(quiz));
         quiz.getAnswers().forEach(answer -> answer.setQuiz(quiz));
@@ -69,10 +69,10 @@ public class QuizController {
 
         Optional<Quiz> optionalQuiz = quizRepository.findById(id);
         boolean success = false;
-
+        Set<Integer> dbAnswers;
         if (optionalQuiz.isPresent()) {
             Quiz quiz = optionalQuiz.get();
-            Set<Integer> dbAnswers = quiz.getAnswers().stream().map(Answer::getAnswer).collect(Collectors.toSet());
+            dbAnswers = quiz.getAnswers().stream().map(Answer::getAnswer).collect(Collectors.toSet());
             Set<Integer> userAnswers = answers.stream().map(Answer::getAnswer).collect(Collectors.toSet());
             if (dbAnswers.equals(userAnswers)) {
                 success = true;
@@ -83,14 +83,13 @@ public class QuizController {
                 completedRepository.save(new Completed(quiz.getId(),
                         LocalDateTime.now(), userID));
             }
-            System.out.println("db answers: " + dbAnswers + "\n" + "user answers: " + userAnswers);
+            System.out.println("db answers: " + dbAnswers + "\nuser answers: " + userAnswers);
         } else {
             /* If no quiz at Id found */
             throw new QuizNotFoundException((int) id);
         }
-        Feedback feedback = new Feedback();
-        feedback.setFeedBack(success);
-
+        Feedback feedback = new Feedback(success,
+                !dbAnswers.isEmpty() ? dbAnswers.stream().mapToInt(Integer::intValue).toArray() : new int[]{});
         return feedback;
     }
 
