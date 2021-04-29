@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Quiz users</title>
@@ -32,8 +33,10 @@
 
 </div>
 
-<div class="bottomNav">
-    <a href="http://localhost:8080">Home</a>
+<div class="center">
+    <a th:href="@{/}">
+        <button>Home</button>
+    </a>
 </div>
 
 </body>

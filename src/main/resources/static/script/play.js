@@ -1,6 +1,6 @@
 const TITLE = document.getElementById("title")
 const QUESTION = document.getElementById("question")
-const OPTIONS_FORM = document.getElementById("options")
+const OPTIONS_CONT = document.getElementById("options")
 const CURRENT_Q_SPAN = document.getElementById("current-question")
 const USER_SCORE_SPAN = document.getElementById("user-score")
 
@@ -36,13 +36,16 @@ getQuizzesRequest.onload = function () {
 getQuizzesRequest.send()
 
 function updateView(quiz) {
-    // Clear all previous children from OPTIONS_FORM
-    removeAllChildren(OPTIONS_FORM)
+    // Clear all previous children from OPTIONS_CONT
+    removeAllChildren(OPTIONS_CONT)
     let answerType = quiz.isMultipleChoice ? "checkbox" : "radio"
     TITLE.innerHTML = quiz.title
     QUESTION.innerHTML = quiz.text
     let options = quiz.options
     for (let i = 0; i < options.length; i++) {
+        let div = document.createElement("div")
+        div.className = "option"
+
         let input = document.createElement("input")
         input.type = answerType
         input.id = "option" + i
@@ -54,8 +57,10 @@ function updateView(quiz) {
         label.htmlFor = "option" + i
         label.innerHTML = options[i].option
 
-        OPTIONS_FORM.appendChild(input)
-        OPTIONS_FORM.appendChild(label)
+        div.appendChild(input)
+        div.appendChild(label)
+
+        OPTIONS_CONT.appendChild(div)
     }
 }
 
@@ -88,15 +93,13 @@ const toggleNextQBTN = (toggle) => {
 };
 
 // Check the given answer against the API
-ANSWER_BTN.addEventListener("click", function () {
+ANSWER_BTN.addEventListener("click", function () { // todo error if answer correct highlight
     console.log("Answer button clicked")
-    // todo send request to API with answer
     postAnswerRequest.open("post", "/api/quizzes/" + quizzes[currentQuestion].id + "/solve"
         , true
-        , "simon.aust@hotmail.com"
+        , "simon.aust@hotmail.com" // todo get logged in user
         , "password")
     postAnswerRequest.setRequestHeader("Content-type", "application/json;charset=UTF-8")
-    // todo find quiz id and insert into url, add body
     postAnswerRequest.onload = function () {
         let jsonResponse = JSON.parse(this.response)
         console.log(this.response)
@@ -105,49 +108,59 @@ ANSWER_BTN.addEventListener("click", function () {
             // increment the score counter and glow green?
             score++
             USER_SCORE_SPAN.innerHTML = score.toString()
-            for (let i = 0; i < USER_ANSWERS; i++) {
-                document.getElementById("label" + USER_ANSWERS[i])
-                    .style.backgroundColor = "lightgreen"
-            }
+            highlightCorrectAnswers(jsonResponse.answers)
         } else {
-            for (let i = 0; i < jsonResponse.answers.length; i++) {
-                document.getElementById("label" + (jsonResponse.answers[i] - 1))
-                    .style.backgroundColor = "lightgreen"
-            }
-            let filteredArr = USER_ANSWERS.filter(value => !jsonResponse.answers.includes(value))
-            console.log("filteredArr: " + filteredArr)
-            for (let i = 0; i <filteredArr.length; i++) {
-                document.getElementById("label" + (filteredArr[i] - 1))
-                    .style.backgroundColor = "red"
-            }
-            console.log("USER_ANSWERS: " + USER_ANSWERS)
-            // glow red
-            USER_ANSWERS = []
+            highlightCorrectAnswers(jsonResponse.answers)
+            highlightIncorrectAnswers(jsonResponse.answers)
         }
+        USER_ANSWERS = [] // answers need to be emptied after each question to prevent errors
     }
     let json = []
     addUserAnswersToObject(json)
     postAnswerRequest.send(JSON.stringify(json))
     toggleAnsBTN(false)
-    if (currentQuestion === quizzes.length - 1) {
+    if (currentQuestion === quizzes.length - 1) { // next button disabled for final question
         toggleNextQBTN(false)
         return
     }
     toggleNextQBTN(true)
 })
 
+const highlightCorrectAnswers = (array) => {
+    for (let i = 0; i < array.length; i++) {
+        document.getElementById("label" + (array[i] - 1))
+            .style.backgroundColor = "lightgreen"
+    }
+}
+
+// Use an negate intersection between the user answers and actual answers, this
+// allows us to highlight the incorrect answers only in red, overlapping
+// correct answers will still be in unchanged
+const highlightIncorrectAnswers = (correctAnsArr) => {
+    let filteredArr = USER_ANSWERS.filter(value => !correctAnsArr.includes(value))
+    console.log("filteredArr: " + filteredArr)
+    for (let i = 0; i <filteredArr.length; i++) {
+        document.getElementById("label" + (filteredArr[i] - 1))
+            .style.backgroundColor = "red"
+    }
+    console.log("USER_ANSWERS: " + USER_ANSWERS)
+}
+
 const addUserAnswersToObject = (array) => {
-    let children = OPTIONS_FORM.children
+    let children = OPTIONS_CONT.children
     for (let i = 0; i < children.length; i++) {
         let jsonObj = {
             "answer": null
         }
-        if (children[i].nodeName === "INPUT") {
-            if (children[i].checked) {
-                let choice = parseInt((children[i].id.charAt(6))) + 1
-                USER_ANSWERS.push(choice)
-                jsonObj.answer = choice
-                array.push(jsonObj)
+        let grandChildren = children[i].children
+        for (let i = 0; i < grandChildren.length; i++) {
+            if (grandChildren[i].nodeName === "INPUT") {
+                if (grandChildren[i].checked) {
+                    let choice = parseInt((grandChildren[i].id.charAt(6))) + 1
+                    USER_ANSWERS.push(choice)
+                    jsonObj.answer = choice
+                    array.push(jsonObj)
+                }
             }
         }
     }

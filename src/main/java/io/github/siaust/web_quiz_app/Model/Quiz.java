@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,6 +18,8 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    private LocalDateTime timestamp;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Won't send in JSON response
     private long userId;
@@ -30,16 +32,19 @@ public class Quiz {
 
     private boolean isMultipleChoice;
 
-    @Size(min = 2)
+    @Size(min = 2, message = "Must be at least two options")
+    @Size(max = 6, message = "Must be no more than six options")
     @NotNull
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Option> options;
+    private List<Option> options = new ArrayList<>(); // for Thymeleaf form
 
     @JsonIgnore /* Ignores this JSON property in a generated response from this DTO */
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference /* Prevents Jackson error looping JSON response */
-    private List<Answer> answers;
+    @Size(min = 1, message = "Must be an answer!")
+    @Size(max = 4, message = "No more than four answers") // todo check validation
+    private List<Answer> answers = new ArrayList<>(); // for Thymeleaf form
 
     public Quiz() {
     }
@@ -51,6 +56,7 @@ public class Quiz {
         this.isMultipleChoice = isMultipleChoice;
         this.options = options;
         this.answers = answers;
+        this.timestamp = LocalDateTime.now();
     }
 
     @Override
@@ -89,7 +95,7 @@ public class Quiz {
     }
 
     public List<Option> getOptions() {
-        return options;
+        return this.options;
     }
 
     public void setOptions(List<Option> options) {
@@ -98,7 +104,7 @@ public class Quiz {
 
     @JsonIgnore
     public List<Answer> getAnswers() {
-        return answers;
+        return this.answers;
     }
 
     @JsonProperty("answer")
@@ -120,5 +126,13 @@ public class Quiz {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime creationDate) {
+        this.timestamp = creationDate;
     }
 }

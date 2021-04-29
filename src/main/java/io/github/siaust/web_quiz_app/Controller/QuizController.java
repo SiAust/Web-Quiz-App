@@ -41,8 +41,8 @@ public class QuizController {
     /* *** POST request mappings *** */
 
     /* Mapping for adding a quiz */
-    @PostMapping(path = "api/quizzes", produces = "application/json")
-    public Quiz addQuiz(@Valid @RequestBody Quiz quiz) {
+    @PostMapping(path = "api/save-quiz", produces = "application/json")
+    public Quiz saveQuiz(@Valid @RequestBody Quiz quiz) {
         logger.info("POST new Quiz - {}", quiz);
         /* Quiz has to be explicitly set for each option and answer (for FK id purposes) */
         quiz.getOptions().forEach(option -> option.setQuiz(quiz));
@@ -51,7 +51,7 @@ public class QuizController {
         quiz.setUserId(UserService.findUserID(SecurityContextHolder
                 .getContext().getAuthentication()
                 .getName()));
-
+        quiz.setTimestamp(LocalDateTime.now());
 //        System.out.println(quiz);
 
         quizRepository.save(quiz);

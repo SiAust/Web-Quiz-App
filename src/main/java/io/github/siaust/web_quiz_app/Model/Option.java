@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Component
 @Entity(name = "options_table")
@@ -18,9 +19,10 @@ public class Option {
     @JsonBackReference
     private Quiz quiz;
 
+    @NotEmpty(message = "Must enter an option")
     private String option;
 
-    // for Jackson deserielization
+    // for Jackson deserialization
     public Option() {
     }
 
@@ -57,7 +59,6 @@ public class Option {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
-
 
     @Override
     public String toString() {

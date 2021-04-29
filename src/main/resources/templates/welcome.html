@@ -1,37 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <title>Welcome to Quiz API</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
     <div class="container main">
-        <!-- Thymeleaf attributes go within the HTML tag.
-             They reference a variable from the Java code
-             model in the controller method or
-             from other places like the query string
-         -->
+
         <span id="title"><p th:text="'Welcome ' + ${name} + '!'"></p></span>
-        
-        Welcome to the great big Tottenham Hotspur Quiz! <br>
-        If you're already registered please go play a quiz! <br>
-        Otherwise register yourself below. <br>
-        COYS! <br>
-        <ul>
-            <li><b>Play Quiz</b> : <a href="http://localhost:8080/play">Play</a></li>
-            <li><b>Register</b> : <a href=#><del>Register</del></a></li>
-            <li><b>Show all quizzes</b> : <a href="http://localhost:8080/quiz">All quizzes</a></li>
-            <li><b>Show all users</b> : <a href="http://localhost:8080/users">All users</a></li>
-        </ul>
-        
-        <!-- This th:text will append from a query string
-             ?q= in the URL, if absent it place an empty string
 
-        <p th:text="'The query parameter q is '+ ${param.q}"></p>
+        <p>Welcome to the great big Tottenham Hotspur Quiz!
+        If you're already registered please go play a quiz!
+        Otherwise register yourself below.
+        COYS!</p>
 
-        -->
+        <div class="options-container">
+
+            <div class="option">
+                <b>Play Quiz</b><a th:href="@{/play}">Play</a>
+            </div>
+
+            <div class="option">
+                <b>Register</b><a th:href="@{#}">Register</a>
+            </div>
+
+            <div class="option">
+                <b>Create new question</b><a th:href="@{/create}">Create</a>
+            </div>
+
+            <div class="option">
+                <b>Show all quizzes</b><a th:href="@{/quiz}"> <del>All quizzes</del></a>
+            </div>
+
+            <div class="option">
+                <b>Show all users</b><a th:href="@{/users}"><del>All users</del></a>
+            </div>
+
+        </div>
+
     </div>
 
+    <!-- "Buy me a coffee" button -->
+    <div class="center">
+        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
+                data-name="bmc-button" data-slug="simonaust" data-color="#FFDD00"
+                data-emoji="" data-font="Cookie" data-text="Buy me a coffee"
+                data-outline-color="#000000" data-font-color="#000000"
+                data-coffee-color="#ffffff">
+        </script>
+    </div>
 
 </body>
