@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 
 @Component
 @Entity
@@ -18,6 +19,7 @@ public class Answer {
     @JsonBackReference
     private Quiz quiz;
 
+    @Digits(integer = 1, fraction = 0, message = "Must be single digit representing an option")
     private int answer;
 
     public Answer() {}

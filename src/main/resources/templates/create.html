@@ -16,18 +16,21 @@
 
         <form th:action="@{/create}" th:object="${quiz}" method="post">
 
+<!-- Title textarea -->
             <div class="flex-column">
                 <label>Title</label>
                 <textarea type="text" class="form-control" th:field="*{title}" rows="1"></textarea>
-                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
             </div>
 
+<!-- Question textarea -->
             <div class="flex-column">
                 <label>Question</label>
                 <textarea type="text" class="form-control" th:field="*{text}" rows="2"></textarea>
-                <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Error</div>
+                <div class="error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Error</div>
             </div>
 
+<!-- Multiple choice radio buttons -->
             <div class="form-row">
                 <strong>Does the question have more than one answer?</strong>
             </div>
@@ -43,29 +46,54 @@
                 </div>
             </div>
 
+<!-- Options -->
             <div class="form-row">
                 <strong>Options</strong>
             </div>
 
             <div class="flex-column">
-                <div th:each="option, rowStat : *{options}">
+                <div class="flex" th:each="option, rowStat : *{options}">
+                    <p th:text="${rowStat.index + 1}"></p>
                     <input type="text" th:field="*{options[__${rowStat.index}__].option}">
+                    <ul th:if="${#fields.hasErrors('*{options[__${rowStat.index}__].option}')}">
+                        <li
+                            class="error"
+                            th:each="err : ${#fields.errors('*{options[__${rowStat.index}__].option}')}"
+                            th:text="${err}">
+                            Input is incorrect
+                        </li>
+                    </ul>
                 </div>
+
+                <div class="error" th:if="${#fields.hasErrors('options')}" th:text="${#fields.errors('options')}"></div>
+
                 <button type="submit" name="addOption">Add option</button>
             </div>
 
+<!-- Answers -->
             <div class="form-row">
                 <strong>Answers</strong>
-                <!-- todo implement answers -->
             </div>
 
             <div class="flex-column">
                 <div th:each="answer, rowStat : *{answers}">
                     <input type="text" th:field="*{answers[__${rowStat.index}__].answer}">
+                    <ul th:if="${#fields.hasErrors('*{answers[__${rowStat.index}__].answer}')}">
+                        <li
+                            class="error"
+                            th:each="err : ${#fields.errors('*{answers[__${rowStat.index}__].answer}')}"
+                            th:text="${err}">
+                            Input is incorrect
+                        </li>
+                    </ul>
                 </div>
+
+                <div class="error" th:if="${#fields.hasErrors('answers')}" th:text="${#fields.errors('answers')}"></div>
+
                 <button type="submit" name="addAnswer">Add answer</button>
             </div>
 
+<!-- Submit form -->
             <div class="center">
                 <a th:href="@{/}">
                     <button type="submit" name="save">Save Quiz</button>

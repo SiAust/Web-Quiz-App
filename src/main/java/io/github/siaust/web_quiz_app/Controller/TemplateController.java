@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.ObjectUtils;
 
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class TemplateController {
@@ -34,9 +36,6 @@ public class TemplateController {
 //        super();
 //    }
 
-    /* Test for Thymeleaf */
-    /* The model is a set of key value pairs that Thymeleaf refers
-    * to in the HTML code to insert these values */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getWelcome(@RequestParam(value = "name", defaultValue = "anon")
                              String name, Model model) {
@@ -81,7 +80,11 @@ public class TemplateController {
     @RequestMapping(value = "/create", params = {"save"})
     public String saveQuizFromForm(@Valid final Quiz quiz, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(System.out::println);
+//            bindingResult.getFieldErrors().forEach(System.out::println);
+            for (Option option : quiz.getOptions()) {
+                System.out.println("Option is empty? " + option.getOption().isEmpty());
+            }
+            bindingResult.getAllErrors().forEach(System.out::println);
             log.info("Binding result error: {}", quiz);
             return "create";
         }
@@ -90,8 +93,14 @@ public class TemplateController {
     }
         /* Called when client selects submit add option button */
     @RequestMapping(value = "/create", params = {"addOption"})
-    public String addOptionToForm(final Quiz quiz, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String addOptionToForm(@Valid final Quiz quiz, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors("options")) {
+            log.info("Binding result error on options");
+            bindingResult.getFieldErrors().forEach(fieldError -> System.out.println("Field Error: " + fieldError));
+           if (bindingResult.getFieldError("options").getDefaultMessage().startsWith("Must be at least two")) {
+               return "create";
+           }
+
             // todo don't add new option, return
         }
         quiz.getOptions().add(new Option());
@@ -99,8 +108,13 @@ public class TemplateController {
     }
         /* Called when client selects submit add answer button */
     @RequestMapping(value = "/create", params = {"addAnswer"})
-    public String addAnswerToForm(final Quiz quiz, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String addAnswerToForm(@Valid final Quiz quiz, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors("answers")) {
+            log.info("Binding result error on answers");
+            bindingResult.getAllErrors().forEach(result -> System.out.println("Error adding answer: " + result));
+            if (bindingResult.getFieldError("answers").getDefaultMessage().startsWith("Must be at least one")) {
+                return "create";
+            }
             // todo don't add new answer, return
         }
         quiz.getAnswers().add(new Answer());

@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -27,24 +31,24 @@ public class Quiz {
     @NotBlank(message = "Title must not be blank")
     private String title;
 
-    @NotBlank(message = "Text must not be blank")
+    @NotBlank(message = "Question text must not be blank")
     private String text;
 
     private boolean isMultipleChoice;
 
-    @Size(min = 2, message = "Must be at least two options")
-    @Size(max = 6, message = "Must be no more than six options")
     @NotNull
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Option> options = new ArrayList<>(); // for Thymeleaf form
+    @Valid
+    @Size(min = 2, max = 6, message = "Must be at least two, no more than six options")
+    private List<Option> options /*= new ArrayList<>()*/; // for Thymeleaf form
 
     @JsonIgnore /* Ignores this JSON property in a generated response from this DTO */
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference /* Prevents Jackson error looping JSON response */
-    @Size(min = 1, message = "Must be an answer!")
-    @Size(max = 4, message = "No more than four answers") // todo check validation
-    private List<Answer> answers = new ArrayList<>(); // for Thymeleaf form
+    @Valid
+    @Size(min = 1, max = 4, message = "Must be at least one, no more than 4 answer(s)!")
+    private List<Answer> answers/* = new ArrayList<>()*/; // for Thymeleaf form
 
     public Quiz() {
     }
@@ -67,6 +71,11 @@ public class Quiz {
                 + " isMultipleChoice: " + isMultipleChoice
                 + " options: " + options
                 + " answer: " + answers;
+    }
+
+    @AssertTrue
+    public boolean isListValidSize() {
+        return this.options.size() <= 6;
     }
 
     /* Getters and setters for the Spring annotation @RequestBody to function */

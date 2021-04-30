@@ -1,3 +1,4 @@
+/* tags */
 html {
     height: 100%;
 }
@@ -8,32 +9,6 @@ body {
     justify-content: center;
     height: 100%;
     margin: 0;
-}
-
-.container, .bottomNav {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    margin: 0 auto 10px auto;
-    width: 500px;
-    height: 50px;
-    border: 2px blue dotted;
-    padding: 20px;
-    background-color: aliceblue;
-    font-family: Recursive, monospace;
-    text-align: center;
-}
-
-.main {
-    flex-direction: column;
-    height: auto;
-}
-
-.bottomNav {
-    position: relative;
-    padding: 10px;
-    width: 100px;
-    text-align: center;
 }
 
 button {
@@ -49,16 +24,59 @@ ul {
     list-style-type: none;
 }
 
+input {
+    margin: 5px;
+}
+
+textarea {
+    width: 100%;
+}
+
+/* classes */
+.bottomNav {
+    position: relative;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+}
+
+.bottomNav, .container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 0 auto 10px auto;
+    width: 500px;
+    height: 50px;
+    border: 2px blue dotted;
+    padding: 20px;
+    background-color: aliceblue;
+    font-family: Recursive, monospace;
+    text-align: center;
+}
+
 .center {
     display: flex;
     justify-content: center;
     padding: 10px;
 }
 
+.error {
+    color: red;
+}
+
+.flex {
+    display: flex;
+}
+
 .flex-column {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.main {
+    flex-direction: column;
+    height: auto;
 }
 
 .options-container {
