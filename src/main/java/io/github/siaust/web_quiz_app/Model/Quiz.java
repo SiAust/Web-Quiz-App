@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -19,26 +23,31 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private LocalDateTime timestamp;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Won't send in JSON response
     private long userId;
 
     @NotBlank(message = "Title must not be blank")
     private String title;
 
-    @NotBlank(message = "Text must not be blank")
+    @NotBlank(message = "Question text must not be blank")
     private String text;
 
     private boolean isMultipleChoice;
 
-    @Size(min = 2)
+    @JsonIgnore
     @NotNull
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @Valid
+    @Size(min = 2, max = 6, message = "Must be at least two, no more than six options")
     private List<Option> options;
 
     @JsonIgnore /* Ignores this JSON property in a generated response from this DTO */
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference /* Prevents Jackson error looping JSON response */
+    @Valid
     private List<Answer> answers;
 
     public Quiz() {
@@ -51,6 +60,7 @@ public class Quiz {
         this.isMultipleChoice = isMultipleChoice;
         this.options = options;
         this.answers = answers;
+        this.timestamp = LocalDateTime.now();
     }
 
     @Override
@@ -58,9 +68,15 @@ public class Quiz {
         return "id: " + id
                 + " title: " + title
                 + " text: " + text
+                + " timeStamp: " + timestamp
                 + " isMultipleChoice: " + isMultipleChoice
                 + " options: " + options
                 + " answer: " + answers;
+    }
+
+    @AssertTrue
+    public boolean isListValidSize() {
+        return this.options.size() <= 6;
     }
 
     /* Getters and setters for the Spring annotation @RequestBody to function */
@@ -89,7 +105,7 @@ public class Quiz {
     }
 
     public List<Option> getOptions() {
-        return options;
+        return this.options;
     }
 
     public void setOptions(List<Option> options) {
@@ -98,7 +114,7 @@ public class Quiz {
 
     @JsonIgnore
     public List<Answer> getAnswers() {
-        return answers;
+        return this.answers;
     }
 
     @JsonProperty("answer")
@@ -120,5 +136,13 @@ public class Quiz {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime creationDate) {
+        this.timestamp = creationDate;
     }
 }

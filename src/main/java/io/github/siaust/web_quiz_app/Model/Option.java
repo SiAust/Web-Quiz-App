@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Component
 @Entity(name = "options_table")
@@ -18,9 +22,11 @@ public class Option {
     @JsonBackReference
     private Quiz quiz;
 
+    @NotBlank(message = "Must enter an option")
+    @Size(max = 100, message = "Too long, must be less than 100 chars")
     private String option;
 
-    // for Jackson deserielization
+    // for Jackson deserialization
     public Option() {
     }
 
@@ -57,7 +63,6 @@ public class Option {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
-
 
     @Override
     public String toString() {

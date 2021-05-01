@@ -1,4 +1,52 @@
-.container, .bottomNav {
+/* tags */
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+}
+
+button {
+    height: 50px;
+    width: 100px;
+    border: 2px blue dotted;
+    margin: 5px;
+    background-color: aliceblue;
+    font-family: Recursive, monospace;
+}
+
+textarea {
+    resize: none;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    margin: 5px;
+}
+
+textarea {
+    width: 100%;
+}
+
+/* classes */
+.bottomNav {
+    position: relative;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+}
+
+.bottomNav, .container {
     display: flex;
     align-content: center;
     justify-content: center;
@@ -12,34 +60,44 @@
     text-align: center;
 }
 
-.main {
-    flex-direction: column;
-    height: auto;
-}
-
-.bottomNav {
-    position: relative;
-    padding: 10px;
-    width: 100px;
-    text-align: center;
-}
-
-button {
-    height: 50px;
-    width: 100px;
-    border: 2px blue dotted;
-    margin: 5px;
-    background-color: aliceblue;
-    font-family: Recursive, monospace;
-}
-
 .center {
     display: flex;
     justify-content: center;
     padding: 10px;
 }
 
+.error {
+    color: red;
+    font-size: smaller;
+    margin: 5px;
+}
+
+.flex {
+    display: flex;
+}
+
 .flex-column {
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.main {
+    flex-direction: column;
+    height: auto;
+}
+
+.options-container {
+    max-width: 400px;
+    margin: 0 20% 0 20%;
+}
+
+.option {
+    display: flex;
+    justify-content: space-between;
 }

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>Create a Quiz</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+</head>
+
+<body>
+
+    <div class="container main">
+
+        <form th:action="@{/create}" th:object="${quiz}" method="post">
+
+<!-- Title textarea -->
+            <div class="flex-column">
+                <label>Title</label>
+                <textarea type="text" class="form-control" th:field="*{title}" rows="1"></textarea>
+            </div>
+
+<!-- Question textarea -->
+            <div class="flex-column">
+                <label>Question</label>
+                <textarea type="text" class="form-control" th:field="*{text}" rows="2"></textarea>
+            </div>
+
+<!-- Multiple choice radio buttons -->
+
+
+            <div class="col-md-6">
+
+                <div>
+                    <label for="isMultipleChoice">Does the question have more than one answer?</label>
+                    <input type="checkbox" th:field="*{isMultipleChoice}" id="isMultipleChoice">
+                </div>
+
+            </div>
+
+<!-- Options + answers (selected by checkbox) -->
+            <div class="flex-column">
+
+                <table class="flex-column">
+                    <tr>
+                        <th></th>
+                        <th>Option</th>
+                        <th>Answer</th>
+                    </tr>
+
+                    <tr  th:each="option, rowStat : *{options}">
+
+                        <td>
+                            <label th:for="option + ${rowStat.index}"
+                                   th:text="${rowStat.index + 1}"></label>
+                        </td>
+
+                        <td>
+                            <input type="text"
+                                   th:field="*{options[__${rowStat.index}__].option}"
+                                   th:id="option + ${rowStat.index}">
+                        </td>
+
+                        <td>
+                            <input type="checkbox"
+                                   th:field="*{answers[__${rowStat.index}__].answer}"
+                                   th:value="${rowStat.index + 1}">
+                            <!-- If above checkbox unchecked, hidden checked will return a value
+                                 rather than null, prevents bindingResult error -->
+                            <input type="hidden"
+                                    th:field="*{answers[__${rowStat.index}__].answer}"
+                                    th:value="0">
+                        </td>
+
+                    </tr>
+
+                </table>
+
+                <div th:if="${#fields.hasErrors('*')}">
+                    <div class="error"
+                         th:each="err : ${#fields.errors('*')}"
+                         th:text="${err}"></div>
+                </div>
+
+                <div class="flex-row">
+                    <button type="submit" name="addOption">Add option</button>
+                    <button type="submit" name="removeOption"
+                        th:value="*{options.size() -1}">Remove option</button>
+                </div>
+
+            </div>
+
+<!-- Submit form -->
+            <div class="center">
+                <a th:href="@{/}">
+                    <button type="submit" name="save">Save Quiz</button>
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="center">
+        <a th:href="@{/}">
+            <button>Home</button>
+        </a>
+    </div>
+
+</body>
+
+</html>
