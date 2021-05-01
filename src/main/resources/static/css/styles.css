@@ -20,8 +20,14 @@ button {
     font-family: Recursive, monospace;
 }
 
+textarea {
+    resize: none;
+}
+
 ul {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 input {
@@ -62,6 +68,8 @@ textarea {
 
 .error {
     color: red;
+    font-size: smaller;
+    margin: 5px;
 }
 
 .flex {
@@ -72,6 +80,11 @@ textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
 }
 
 .main {

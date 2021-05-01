@@ -52,11 +52,8 @@ public class QuizController {
                 .getContext().getAuthentication()
                 .getName()));
         quiz.setTimestamp(LocalDateTime.now());
-//        System.out.println(quiz);
-
         quizRepository.save(quiz);
         logger.info("POST request: api/quizzes Body: " + quiz);
-
         return quiz;
     }
 

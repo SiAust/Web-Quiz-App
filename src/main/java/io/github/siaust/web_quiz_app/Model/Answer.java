@@ -19,7 +19,6 @@ public class Answer {
     @JsonBackReference
     private Quiz quiz;
 
-    @Digits(integer = 1, fraction = 0, message = "Must be single digit representing an option")
     private int answer;
 
     public Answer() {}

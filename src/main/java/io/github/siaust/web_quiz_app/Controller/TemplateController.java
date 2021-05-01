@@ -1,28 +1,31 @@
 package io.github.siaust.web_quiz_app.Controller;
 
+import ch.qos.logback.core.boolex.EvaluationException;
 import io.github.siaust.web_quiz_app.Model.Answer;
 import io.github.siaust.web_quiz_app.Model.Option;
 import io.github.siaust.web_quiz_app.Model.Quiz;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
 import io.github.siaust.web_quiz_app.Repository.UserRepository;
 import io.github.siaust.web_quiz_app.Service.QuizService;
+import io.github.siaust.web_quiz_app.Service.UserService;
 import jdk.jfr.internal.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 public class TemplateController {
@@ -63,35 +66,41 @@ public class TemplateController {
         return "users";
     }
 
-    /* Methods for handling create a quiz form */
+    /* *** Methods for handling create a quiz form *** */
 
-        /* Landing page to display the initial form */
+    /* Landing page to display the initial form */
     @RequestMapping(value = "/create")
     public String createQuizForm(final Quiz quiz) {
 //        Quiz quiz = new Quiz();
         List<Option> options = Arrays.asList(new Option(), new Option());
         quiz.setOptions(options);
-        List<Answer> answers = Arrays.asList(new Answer());
+        List<Answer> answers = Arrays.asList(new Answer(), new Answer());
         quiz.setAnswers(answers);
 //        model.addAttribute("quiz", quiz);
         return "create";
     }
-        /* Called when user submits form */
+    /* Called when user submits form */
     @RequestMapping(value = "/create", params = {"save"})
     public String saveQuizFromForm(@Valid final Quiz quiz, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-//            bindingResult.getFieldErrors().forEach(System.out::println);
-            for (Option option : quiz.getOptions()) {
-                System.out.println("Option is empty? " + option.getOption().isEmpty());
-            }
-            bindingResult.getAllErrors().forEach(System.out::println);
             log.info("Binding result error: {}", quiz);
+            bindingResult.getAllErrors().forEach(objectError -> log.info("BindingResult error: {}", objectError));
             return "create";
         }
-        log.info("Quiz form submitted: {}", quiz); // todo save quiz to db
-        return "welcome"; // todo return form submitted result
+        /* Answer values at 0 are default values, checkbox was unchecked, and should be removed */
+        quiz.getAnswers().removeIf(answer -> answer.getAnswer() == 0);
+        quiz.getOptions().forEach(option -> option.setQuiz(quiz));
+        quiz.getAnswers().forEach(answer -> answer.setQuiz(quiz));
+        /* quiz.setUserId(UserService.findUserID(SecurityContextHolder
+                .getContext().getAuthentication()
+                .getName()));*/ // todo implement auth
+        quiz.setTimestamp(LocalDateTime.now());
+        log.info("Quiz form submitted: {}", quiz);
+        quizRepository.save(quiz);
+        return "result"; // todo return form submitted result
     }
-        /* Called when client selects submit add option button */
+
+    /* Called when client selects submit add option button */
     @RequestMapping(value = "/create", params = {"addOption"})
     public String addOptionToForm(@Valid final Quiz quiz, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors("options")) {
@@ -100,24 +109,24 @@ public class TemplateController {
            if (bindingResult.getFieldError("options").getDefaultMessage().startsWith("Must be at least two")) {
                return "create";
            }
-
-            // todo don't add new option, return
         }
         quiz.getOptions().add(new Option());
+        quiz.getAnswers().add(new Answer());
         return "create";
     }
-        /* Called when client selects submit add answer button */
-    @RequestMapping(value = "/create", params = {"addAnswer"})
-    public String addAnswerToForm(@Valid final Quiz quiz, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors("answers")) {
-            log.info("Binding result error on answers");
-            bindingResult.getAllErrors().forEach(result -> System.out.println("Error adding answer: " + result));
-            if (bindingResult.getFieldError("answers").getDefaultMessage().startsWith("Must be at least one")) {
-                return "create";
-            }
-            // todo don't add new answer, return
+
+    @RequestMapping(value = "/create", params = {"removeOption"})
+    public String removeOptionFromForm(@Valid final Quiz quiz, BindingResult bindingResult,
+                                       HttpServletRequest request) {
+        int optionsSize = quiz.getOptions().size();
+        if (optionsSize == 2) {
+            bindingResult.addError(new FieldError("options", "options"
+                    , "Cannot be less than two options"));
+            return "create";
         }
-        quiz.getAnswers().add(new Answer());
+        int rowId = Integer.parseInt(request.getParameter("removeOption"));
+        quiz.getOptions().remove(rowId);
+        quiz.getAnswers().remove(rowId);
         return "create";
     }
 

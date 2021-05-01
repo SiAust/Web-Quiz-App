@@ -23,7 +23,7 @@ public class Option {
     private Quiz quiz;
 
     @NotBlank(message = "Must enter an option")
-    @Size(max = 100, message = "Option is too long, less than 100 chars")
+    @Size(max = 100, message = "Too long, must be less than 100 chars")
     private String option;
 
     // for Jackson deserialization

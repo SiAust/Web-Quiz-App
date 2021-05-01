@@ -20,77 +20,76 @@
             <div class="flex-column">
                 <label>Title</label>
                 <textarea type="text" class="form-control" th:field="*{title}" rows="1"></textarea>
-                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
             </div>
 
 <!-- Question textarea -->
             <div class="flex-column">
                 <label>Question</label>
                 <textarea type="text" class="form-control" th:field="*{text}" rows="2"></textarea>
-                <div class="error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Error</div>
             </div>
 
 <!-- Multiple choice radio buttons -->
-            <div class="form-row">
-                <strong>Does the question have more than one answer?</strong>
-            </div>
+
 
             <div class="col-md-6">
-                <div class="form-row">
-                    <input type="radio" th:field="*{isMultipleChoice}" id="option1" value="true">
-                    <label for="option1">More than one answer</label>
+
+                <div>
+                    <label for="isMultipleChoice">Does the question have more than one answer?</label>
+                    <input type="checkbox" th:field="*{isMultipleChoice}" id="isMultipleChoice">
                 </div>
-                <div class="form-row">
-                    <input type="radio" th:field="*{isMultipleChoice}" id="option2" value="false">
-                    <label for="option2">A single answer</label>
-                </div>
+
             </div>
 
-<!-- Options -->
-            <div class="form-row">
-                <strong>Options</strong>
-            </div>
-
+<!-- Options + answers (selected by checkbox) -->
             <div class="flex-column">
-                <div class="flex" th:each="option, rowStat : *{options}">
-                    <p th:text="${rowStat.index + 1}"></p>
-                    <input type="text" th:field="*{options[__${rowStat.index}__].option}">
-                    <ul th:if="${#fields.hasErrors('*{options[__${rowStat.index}__].option}')}">
-                        <li
-                            class="error"
-                            th:each="err : ${#fields.errors('*{options[__${rowStat.index}__].option}')}"
-                            th:text="${err}">
-                            Input is incorrect
-                        </li>
-                    </ul>
+
+                <table class="flex-column">
+                    <tr>
+                        <th></th>
+                        <th>Option</th>
+                        <th>Answer</th>
+                    </tr>
+
+                    <tr  th:each="option, rowStat : *{options}">
+
+                        <td>
+                            <label th:for="option + ${rowStat.index}"
+                                   th:text="${rowStat.index + 1}"></label>
+                        </td>
+
+                        <td>
+                            <input type="text"
+                                   th:field="*{options[__${rowStat.index}__].option}"
+                                   th:id="option + ${rowStat.index}">
+                        </td>
+
+                        <td>
+                            <input type="checkbox"
+                                   th:field="*{answers[__${rowStat.index}__].answer}"
+                                   th:value="${rowStat.index + 1}">
+                            <!-- If above checkbox unchecked, hidden checked will return a value
+                                 rather than null, prevents bindingResult error -->
+                            <input type="hidden"
+                                    th:field="*{answers[__${rowStat.index}__].answer}"
+                                    th:value="0">
+                        </td>
+
+                    </tr>
+
+                </table>
+
+                <div th:if="${#fields.hasErrors('*')}">
+                    <div class="error"
+                         th:each="err : ${#fields.errors('*')}"
+                         th:text="${err}"></div>
                 </div>
 
-                <div class="error" th:if="${#fields.hasErrors('options')}" th:text="${#fields.errors('options')}"></div>
-
-                <button type="submit" name="addOption">Add option</button>
-            </div>
-
-<!-- Answers -->
-            <div class="form-row">
-                <strong>Answers</strong>
-            </div>
-
-            <div class="flex-column">
-                <div th:each="answer, rowStat : *{answers}">
-                    <input type="text" th:field="*{answers[__${rowStat.index}__].answer}">
-                    <ul th:if="${#fields.hasErrors('*{answers[__${rowStat.index}__].answer}')}">
-                        <li
-                            class="error"
-                            th:each="err : ${#fields.errors('*{answers[__${rowStat.index}__].answer}')}"
-                            th:text="${err}">
-                            Input is incorrect
-                        </li>
-                    </ul>
+                <div class="flex-row">
+                    <button type="submit" name="addOption">Add option</button>
+                    <button type="submit" name="removeOption"
+                        th:value="*{options.size() -1}">Remove option</button>
                 </div>
 
-                <div class="error" th:if="${#fields.hasErrors('answers')}" th:text="${#fields.errors('answers')}"></div>
-
-                <button type="submit" name="addAnswer">Add answer</button>
             </div>
 
 <!-- Submit form -->

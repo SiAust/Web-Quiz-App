@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Quiz Submission Result</title>
+  <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+
+<body>
+
+<div class="container main">
+
+  <div>
+    <strong>Title</strong>
+    <p th:text="${quiz.title}"></p>
+  </div>
+
+  <div>
+    <strong>Question</strong>
+    <p th:text="${quiz.text}"></p>
+  </div>
+
+  <div>
+    <strong>Options</strong>
+    <div th:each="option, rowStat : ${quiz.options}">
+      <p th:text="${quiz.options[__${rowStat.index}__].option}"></p>
+    </div>
+  </div>
+
+  <div>
+    <strong>Correct Answers</strong>
+    <div th:each="answer, rowStat : ${quiz.answers}">
+      <p th:text="${quiz.options[answer.answer -1].option}"></p>
+    </div>
+  </div>
+
+</div>
+
+  <div class="center">
+    <a th:href="@{/}">
+      <button>Home</button>
+    </a>
+  </div>
+
+</body>
+
+</html>

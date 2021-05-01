@@ -36,19 +36,19 @@ public class Quiz {
 
     private boolean isMultipleChoice;
 
+    @JsonIgnore
     @NotNull
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference
     @Valid
     @Size(min = 2, max = 6, message = "Must be at least two, no more than six options")
-    private List<Option> options /*= new ArrayList<>()*/; // for Thymeleaf form
+    private List<Option> options;
 
     @JsonIgnore /* Ignores this JSON property in a generated response from this DTO */
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference /* Prevents Jackson error looping JSON response */
     @Valid
-    @Size(min = 1, max = 4, message = "Must be at least one, no more than 4 answer(s)!")
-    private List<Answer> answers/* = new ArrayList<>()*/; // for Thymeleaf form
+    private List<Answer> answers;
 
     public Quiz() {
     }
@@ -68,6 +68,7 @@ public class Quiz {
         return "id: " + id
                 + " title: " + title
                 + " text: " + text
+                + " timeStamp: " + timestamp
                 + " isMultipleChoice: " + isMultipleChoice
                 + " options: " + options
                 + " answer: " + answers;

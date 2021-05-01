@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-     static Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private static UserRepository userRepository;
 
@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
     /** Tries to find the user in the database by username.
      * @param username the username of the User (email)
      * @return the automatically assigned ID of the User or -1 if no matching User. */
-    public static long findUserID(String username) {
+    public static long findUserID(String username) { // todo change from static?
         Optional<User> optionalUser = userRepository.findByEmail(username);
         return optionalUser.map(User::getId).orElse(-1L);
     }
