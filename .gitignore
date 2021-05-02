@@ -1,5 +1,4 @@
 HELP.md
-.gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
@@ -32,12 +31,15 @@ out/
 .vscode/
 
 ### My ignored files ###
-build.gradle 
 src/main/resources/META-INF
 src/main/resources/static/img
 src/test/
-gradle/
-gradlew
-gradlew.bat
-settings.gradle
 quizdb.mv.db
+
+# Gradle
+#.gradle
+#settings.gradle
+#build.gradle
+#gradle/
+#gradlew
+#gradlew.bat
