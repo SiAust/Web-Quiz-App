@@ -52,8 +52,7 @@ public class UserService implements UserDetailsService {
 
     /** Validates a User before persisting that User to the USER_TABLE.
      * @param user The User to be validated and persisted. */
-    public static void saveUserToDB(User user) {
-
+    public User saveUserToDB(User user) {
         if (user.getPassword().length() < 5) {
             throw new InvalidUserException("password too short.");
         }
@@ -70,10 +69,10 @@ public class UserService implements UserDetailsService {
         }
 
         logger.info("User " + user.getEmail() + " registered");
-        userRepository.save(user);
+        return userRepository.save(user); // todo null check?
     }
 
-    public static User returnUserFromID(String email) {
+    public static User findUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElse(null);
     }

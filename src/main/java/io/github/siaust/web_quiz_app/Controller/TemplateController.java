@@ -4,6 +4,7 @@ import ch.qos.logback.core.boolex.EvaluationException;
 import io.github.siaust.web_quiz_app.Model.Answer;
 import io.github.siaust.web_quiz_app.Model.Option;
 import io.github.siaust.web_quiz_app.Model.Quiz;
+import io.github.siaust.web_quiz_app.Model.User;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
 import io.github.siaust.web_quiz_app.Repository.UserRepository;
 import io.github.siaust.web_quiz_app.Service.QuizService;
@@ -33,6 +34,9 @@ public class TemplateController {
     QuizRepository quizRepository;
     UserRepository userRepository;
 
+    @Autowired
+    UserService userService;
+
     private static final Logger log = LoggerFactory.getLogger(TemplateController.class);
 //
 //    public TemplateController() {
@@ -51,6 +55,23 @@ public class TemplateController {
     public String getPlay() {
         return "play";
     }
+    /* *** Registration handling *** */
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String getRegister(final User user) {
+        return "register";
+    }
+
+    @RequestMapping(value = "/register", params = {"save"})
+    public String saveUser(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "register";
+        }
+        userService.saveUserToDB(user);
+        return "redirect:/?name=" + user.getUserName();
+    }
+
+    /* *** */
 
     /* Shows all the quizzes in the database */
     @RequestMapping(value = "/quiz", method = RequestMethod.GET)
@@ -97,7 +118,7 @@ public class TemplateController {
         quiz.setTimestamp(LocalDateTime.now());
         log.info("Quiz form submitted: {}", quiz);
         quizRepository.save(quiz);
-        return "result"; // todo return form submitted result
+        return "result";
     }
 
     /* Called when client selects submit add option button */
