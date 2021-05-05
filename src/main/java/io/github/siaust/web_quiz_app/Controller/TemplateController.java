@@ -67,8 +67,14 @@ public class TemplateController {
         if (bindingResult.hasFieldErrors()) {
             return "register";
         }
+        user.setRoles("USER");
         userService.saveUserToDB(user);
         return "redirect:/?name=" + user.getUserName();
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
     }
 
     /* *** */

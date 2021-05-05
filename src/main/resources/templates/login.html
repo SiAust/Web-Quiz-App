@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+</head>
+
+<body>
+    <div class="container main">
+
+        <form class="flex-column" th:action="@{/login}" method="post">
+            <input type="text" id="username" name="username" placeholder="Username" autofocus="autofocus" autocomplete="email" required>
+            <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
+            <button type="submit">Login</button>
+        </form>
+
+<!--        <div>-->
+<!--            -->
+<!--            <ul th:if="${#fields.hasErrors('global')}">-->
+<!--                <li th:each="err : ${#fields.errors('global')}" th:text="${err}"></li>-->
+<!--            </ul>-->
+
+<!--        </div>-->
+
+    </div>
+
+    <div class="center">
+        <a th:href="@{/}">
+            <button>Home</button>
+        </a>
+    </div>
+
+</body>
+</html>

@@ -32,7 +32,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT) // todo: probably change this
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT) // todo: probably change this!
     public Map<String, String> handleUserNameNotFoundException(Exception e) {
         Map<String, String> response = new HashMap<>();
         response.put("message", e.getMessage());
