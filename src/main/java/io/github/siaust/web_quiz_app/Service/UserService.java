@@ -1,20 +1,17 @@
 package io.github.siaust.web_quiz_app.Service;
 
 import io.github.siaust.web_quiz_app.Exception.InvalidUserException;
-import io.github.siaust.web_quiz_app.Model.MyUserDetails;
 import io.github.siaust.web_quiz_app.Model.User;
 import io.github.siaust.web_quiz_app.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -23,22 +20,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     public UserService(UserRepository userRepository) {
         UserService.userRepository = userRepository;
-    }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String email) {
-
-        Optional<User> user = userRepository.findByEmail(email);
-        System.out.println("loadByUsername called. User email: " + email);
-        System.out.println("Optional user = " + userRepository.findByEmail(email));
-
-        if (user.isPresent()) {
-            System.out.println("loadUserByUsername called: user.isPresent() = true");
-            return new MyUserDetails(user.get().getEmail(), user.get().getPassword());
-        } else {
-            throw new UsernameNotFoundException("User: " + email + " not found");
-        }
     }
 
     /** Tries to find the user in the database by username.
