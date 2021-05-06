@@ -17,8 +17,7 @@ let currentQuestion
 let score = 0
 
 // Get quizzes from API
-getQuizzesRequest.open("GET", "/api/quizzes", true,
-    "simon.aust@hotmail.com", "password")
+getQuizzesRequest.open("GET", "/api/quizzes", true)
 getQuizzesRequest.onload = function () {
     let data = JSON.parse(this.response)
     console.log(this.response)
@@ -96,9 +95,7 @@ const toggleNextQBTN = (toggle) => {
 ANSWER_BTN.addEventListener("click", function () { // todo error if answer correct highlight
     console.log("Answer button clicked")
     postAnswerRequest.open("post", "/api/quizzes/" + quizzes[currentQuestion].id + "/solve"
-        , true
-        , "simon.aust@hotmail.com" // todo get logged in user
-        , "password")
+        , true)
     postAnswerRequest.setRequestHeader("Content-type", "application/json;charset=UTF-8")
     postAnswerRequest.onload = function () {
         let jsonResponse = JSON.parse(this.response)

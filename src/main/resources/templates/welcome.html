@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
 
 <head>
     <title>Welcome to Quiz API</title>
@@ -12,33 +13,58 @@
 
     <div class="container main">
 
-        <span id="title"><p th:text="'Welcome ' + ${name} + '!'"></p></span>
+        <span id="title"><p>Welcome <span sec:authentication="name"></span>!</p></span>
 
         <p>Welcome to the great big Tottenham Hotspur Quiz!
         If you're already registered please go play a quiz!
         Otherwise register yourself below.
         COYS!</p>
 
+
         <div class="options-container">
 
-            <div class="option">
+            <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" class="option">
                 <b>Play Quiz</b><a th:href="@{/play}">Play</a>
             </div>
 
-            <div class="option">
+            <div sec:authorize="!isAuthenticated()" class="option">
                 <b>Register</b><a th:href="@{/register}">Register</a>
             </div>
 
-            <div class="option">
+            <div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="option">
                 <b>Create new question</b><a th:href="@{/create}">Create</a>
             </div>
 
-            <div class="option">
-                <b>Show all quizzes</b><a th:href="@{/quiz}"> <del>All quizzes</del></a>
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="option">
+                <b>Show all quizzes</b><a th:href="@{/quiz}">All quizzes</a>
             </div>
 
-            <div class="option">
-                <b>Show all users</b><a th:href="@{/users}"><del>All users</del></a>
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="option">
+                <b>Show all users</b><a th:href="@{/users}">All users</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Temp user menu -->
+    <div class="container main">
+
+        <strong>User menu</strong>
+
+        <div>
+            <div><strong>User: </strong><span sec:authentication="name"></span></div>
+
+            <strong>Roles: </strong><span sec:authentication="authorities"></span>
+
+            <div class="flex-column">
+                <form sec:authorize="!isAuthenticated()" action="#" th:action="@{/login}" method="get">
+                    <button type="submit">Login</button>
+                </form>
+
+                <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="get">
+                    <button type="submit">Logout</button>
+                </form>
             </div>
 
         </div>

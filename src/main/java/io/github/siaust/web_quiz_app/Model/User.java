@@ -1,6 +1,6 @@
 package io.github.siaust.web_quiz_app.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -22,15 +22,17 @@ public class User {
     @NotBlank(message = "Email must not be empty") // todo need this with @Email?
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true) // todo catch exception
     @NotEmpty(message = "Username must not be empty")
     @Size(min = 3, message = "Username must be at least 3 characters")
     private String userName;
 
     @NotEmpty(message = "Password must not be empty")
     @Size(min = 6, message = "Password must be at least 6 characters")
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    private String roles;
 
     public User(String email, String userName, String password) {
         this.email = email;
@@ -71,6 +73,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     @Override
