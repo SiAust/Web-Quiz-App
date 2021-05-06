@@ -23,11 +23,11 @@
 
         <div class="options-container">
 
-            <div class="option">
+            <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" class="option">
                 <b>Play Quiz</b><a th:href="@{/play}">Play</a>
             </div>
 
-            <div class="option">
+            <div sec:authorize="!isAuthenticated()" class="option">
                 <b>Register</b><a th:href="@{/register}">Register</a>
             </div>
 
@@ -36,11 +36,11 @@
             </div>
 
             <div sec:authorize="hasRole('ROLE_ADMIN')" class="option">
-                <b>Show all quizzes</b><a th:href="@{/quiz}"> <del>All quizzes</del></a>
+                <b>Show all quizzes</b><a th:href="@{/quiz}">All quizzes</a>
             </div>
 
             <div sec:authorize="hasRole('ROLE_ADMIN')" class="option">
-                <b>Show all users</b><a th:href="@{/users}"><del>All users</del></a>
+                <b>Show all users</b><a th:href="@{/users}">All users</a>
             </div>
 
         </div>
