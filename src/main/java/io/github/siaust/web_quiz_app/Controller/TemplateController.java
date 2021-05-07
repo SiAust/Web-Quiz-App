@@ -5,6 +5,7 @@ import io.github.siaust.web_quiz_app.Model.Answer;
 import io.github.siaust.web_quiz_app.Model.Option;
 import io.github.siaust.web_quiz_app.Model.Quiz;
 import io.github.siaust.web_quiz_app.Model.User;
+import io.github.siaust.web_quiz_app.Repository.CompletedQuizzesRepository;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
 import io.github.siaust.web_quiz_app.Repository.UserRepository;
 import io.github.siaust.web_quiz_app.Service.QuizService;
@@ -13,6 +14,7 @@ import jdk.jfr.internal.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,8 @@ import java.util.*;
 @Controller
 public class TemplateController {
 
+    private final CompletedQuizzesRepository completedQuizzesRepository;
+
     QuizRepository quizRepository;
     UserRepository userRepository;
 
@@ -38,16 +42,24 @@ public class TemplateController {
     UserService userService;
 
     private static final Logger log = LoggerFactory.getLogger(TemplateController.class);
-//
-//    public TemplateController() {
-//        super();
-//    }
+
+    public TemplateController(CompletedQuizzesRepository completedQuizzesRepository) {
+        this.completedQuizzesRepository = completedQuizzesRepository;
+
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getWelcome(@RequestParam(value = "name", defaultValue = "anon")
                              String name, Model model) {
         model.addAttribute("name", name);
-
+        /* If the user isn't anonymous, add completedQuizzes to the model */
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            long userID = userRepository.findByUserName(
+            SecurityContextHolder.getContext().getAuthentication().getName()).get().getId();
+            model.addAttribute("completedQuizzes", completedQuizzesRepository.countAllByUser_id(userID));
+            model.addAttribute("correctAnswers",
+                    completedQuizzesRepository.countAllByUser_idAndWasCorrectTrue(userID));
+        }
         return "welcome";
     }
 

@@ -1,6 +1,10 @@
 /* tags */
 html {
     height: 100%;
+
+    font-family: Recursive, monospace;
+    color: white;
+    background-color: darkblue;
 }
 
 body {
@@ -15,6 +19,7 @@ button {
     height: 50px;
     width: 100px;
     border: 2px blue dotted;
+    border-radius: 5px;
     margin: 5px;
     background-color: aliceblue;
     font-family: Recursive, monospace;
@@ -39,25 +44,25 @@ textarea {
 }
 
 /* classes */
-.bottomNav {
-    position: relative;
-    padding: 10px;
-    width: 100px;
-    text-align: center;
+
+.big-text {
+    font-family: monospace;
+    font-size: xxx-large;
+    color: cornflowerblue;
 }
 
-.bottomNav, .container {
+.container {
     display: flex;
-    align-content: center;
-    justify-content: center;
-    margin: 0 auto 10px auto;
-    width: 500px;
-    height: 50px;
-    border: 2px blue dotted;
-    padding: 20px;
-    background-color: aliceblue;
-    font-family: Recursive, monospace;
-    text-align: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    width: 80%;
+    margin: auto;
+}
+
+.container > .sub-container {
+    margin: 0;
 }
 
 .center {
@@ -100,4 +105,22 @@ textarea {
 .option {
     display: flex;
     justify-content: space-between;
+}
+
+.sub-container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+
+    margin: 0 auto 10px auto;
+    padding: 20px;
+    width: 500px;
+    /*height: 50px;*/
+
+    border: 4px orange dotted;
+    border-radius: 5px;
+
+    background-color: darkslateblue;
+
+    text-align: center;
 }
