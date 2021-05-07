@@ -75,7 +75,7 @@ public class QuizController {
                 success = true;
                 /* Get the current username from currently logged in user */
                 long userID = UserService.findUserID(SecurityContextHolder.getContext()
-                        .getAuthentication().getName());
+                        .getAuthentication().getName()); // fixme returns -1
                 /* Save a completion of the quiz to the COMPLETED_TABLE */
                 completedRepository.save(new Completed(quiz.getId(),
                         LocalDateTime.now(), userID));

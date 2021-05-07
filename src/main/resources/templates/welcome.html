@@ -6,19 +6,30 @@
 <head>
     <title>Welcome to Quiz API</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/user-menu.css">
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="container main">
+<div class="container">
+
+    <div class="sub-container main">
 
         <span id="title"><p>Welcome <span sec:authentication="name"></span>!</p></span>
 
-        <p>Welcome to the great big Tottenham Hotspur Quiz!
-        If you're already registered please go play a quiz!
-        Otherwise register yourself below.
-        COYS!</p>
+        <p>
+            Welcome to Quiz Time! Here you can test your knowledge with user
+            created quizzes! Build your score by getting the correct answers,
+            improve your knowledge on many subjects!
+            Create your own quiz question and share with friends!
+        </p>
+
+        <p sec:authorise="isAuthenticated()">
+            Please login or take ten seconds to register. By registering you
+            may play user created quizzes and create your own. You will also be able
+            to keep track of your score!
+        </p>
 
 
         <div class="options-container">
@@ -47,29 +58,11 @@
 
     </div>
 
-    <!-- Temp user menu -->
-    <div class="container main">
+    <div th:replace="user-menu.html :: userMenu"></div>
 
-        <strong>User menu</strong>
+</div>
 
-        <div>
-            <div><strong>User: </strong><span sec:authentication="name"></span></div>
 
-            <strong>Roles: </strong><span sec:authentication="authorities"></span>
-
-            <div class="flex-column">
-                <form sec:authorize="!isAuthenticated()" action="#" th:action="@{/login}" method="get">
-                    <button type="submit">Login</button>
-                </form>
-
-                <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="get">
-                    <button type="submit">Logout</button>
-                </form>
-            </div>
-
-        </div>
-
-    </div>
 
     <!-- "Buy me a coffee" button -->
     <div class="center">

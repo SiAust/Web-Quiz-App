@@ -13,8 +13,9 @@ public class CompletedService {
 
     private static CompletedRepository completedRepository;
 
-    public CompletedService(CompletedRepository completedRepository)
-    { CompletedService.completedRepository = completedRepository; }
+    public CompletedService(CompletedRepository completedRepository) {
+        CompletedService.completedRepository = completedRepository;
+    }
 
     public static Page<Completed> getCompletions(int pageNo, int pageSize,
                                                  String sortBy, long userID) {

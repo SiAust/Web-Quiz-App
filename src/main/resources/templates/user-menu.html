@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <title>User Menu</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/user-menu.css">
 </head>
+
 <body>
+
+<div th:fragment="userMenu" class="user-menu-container">
+
+    <strong>User menu</strong>
+    <div><span sec:authentication="name"></span></div>
+
+    <div><span sec:authentication="authorities"></span></div>
+
+    <div>
+
+            <div class="flex-column">
+            <form sec:authorize="!isAuthenticated()" action="#" th:action="@{/login}" method="get">
+                <button type="submit">Login</button>
+            </form>
+
+            <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="get">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
