@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Component
 @Entity
@@ -33,6 +34,9 @@ public class User {
     private String password;
 
     private String roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CompletedQuizzes> completedQuizzes;
 
     public User(String email, String userName, String password) {
         this.email = email;

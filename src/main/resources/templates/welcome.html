@@ -12,11 +12,28 @@
 
 <body>
 
+<!--<svg viewBox="0 0 500 500"-->
+<!--     preserveAspectRatio="xMinYMin meet"-->
+<!--     style="z-index: -2;">-->
+
+<!--    <path d="M0, 100-->
+<!--            C150, 200-->
+<!--            350, 0-->
+<!--            500, 100-->
+<!--            L500, 00-->
+<!--            C350, -100-->
+<!--            150, 100-->
+<!--            0, 0 Z"-->
+<!--          style="stroke: none;-->
+<!--                fill:rgba(255,255,255, 0.5);">-->
+<!--    </path>-->
+<!--</svg>-->
+
 <div class="container">
 
     <div class="sub-container main">
 
-        <span id="title"><p>Welcome <span sec:authentication="name"></span>!</p></span>
+        <p class="big-text">Quiz Time!</p>
 
         <p>
             Welcome to Quiz Time! Here you can test your knowledge with user
@@ -25,12 +42,11 @@
             Create your own quiz question and share with friends!
         </p>
 
-        <p sec:authorise="isAuthenticated()">
+        <p sec:authorize="!isAuthenticated()">
             Please login or take ten seconds to register. By registering you
             may play user created quizzes and create your own. You will also be able
             to keep track of your score!
         </p>
-
 
         <div class="options-container">
 

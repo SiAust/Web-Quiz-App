@@ -53,6 +53,11 @@ public class UserService {
         return userRepository.save(user); // todo null check?
     }
 
+    public static User findUserByName(String name) {
+        Optional<User> user = userRepository.findByUserName(name);
+        return user.orElse(null);
+    }
+
     public static User findUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElse(null);

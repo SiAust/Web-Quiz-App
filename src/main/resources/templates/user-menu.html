@@ -15,14 +15,32 @@
 
 <div th:fragment="userMenu" class="user-menu-container">
 
-    <strong>User menu</strong>
-    <div><span sec:authentication="name"></span></div>
+    <div><span class="big-text" sec:authentication="name"></span></div>
 
-    <div><span sec:authentication="authorities"></span></div>
+    <div  sec:authorize="isAuthenticated()">Completed Quizzes <span th:text="${completedQuizzes}"></span></div>
+
+    <div  sec:authorize="isAuthenticated()">Correct answers <span th:text="${correctAnswers}"></span></div>
+
+    <div    sec:authorize="isAuthenticated()"
+            th:with="result=${(correctAnswers * 1.0) / (completedQuizzes * 1.0) * 100}">
+
+        <span class="big-text"
+            th:text="${#numbers.formatDecimal(result, 2, 0) + '%'}">
+
+        </span>
+
+        <p>Success rate!</p>
+
+    </div>
 
     <div>
 
-            <div class="flex-column">
+        <div class="flex-column">
+
+            <a sec:authorize="!isAuthenticated()" th:href="@{/register}">
+                <button>Register</button>
+            </a>
+
             <form sec:authorize="!isAuthenticated()" action="#" th:action="@{/login}" method="get">
                 <button type="submit">Login</button>
             </form>

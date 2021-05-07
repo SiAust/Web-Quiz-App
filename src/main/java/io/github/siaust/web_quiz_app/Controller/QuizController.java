@@ -2,12 +2,11 @@ package io.github.siaust.web_quiz_app.Controller;
 
 import io.github.siaust.web_quiz_app.Model.*;
 import io.github.siaust.web_quiz_app.Exception.QuizNotFoundException;
-import io.github.siaust.web_quiz_app.Repository.CompletedRepository;
+import io.github.siaust.web_quiz_app.Repository.CompletedQuizzesRepository;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
 import io.github.siaust.web_quiz_app.Service.CompletedService;
 import io.github.siaust.web_quiz_app.Service.QuizService;
 import io.github.siaust.web_quiz_app.Service.UserService;
-import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +23,18 @@ import java.util.stream.Collectors;
 @RestController
 public class QuizController {
 
-    Logger logger = LoggerFactory.getLogger(QuizController.class);
+    Logger log = LoggerFactory.getLogger(QuizController.class);
 
     private QuizRepository quizRepository; // todo remove direct call to repo, use QuizService etc
-    private CompletedRepository completedRepository;
+    private CompletedQuizzesRepository completedQuizzesRepository;
 
     public QuizController() {
     }
 
     @Autowired
-    public QuizController(QuizRepository quizRepository, CompletedRepository completedRepository) {
+    public QuizController(QuizRepository quizRepository, CompletedQuizzesRepository completedQuizzesRepository) {
         this.quizRepository = quizRepository;
-        this.completedRepository = completedRepository;
+        this.completedQuizzesRepository = completedQuizzesRepository;
     }
 
     /* *** POST request mappings *** */
@@ -43,7 +42,7 @@ public class QuizController {
     /* Mapping for adding a quiz */
     @PostMapping(path = "api/save-quiz", produces = "application/json")
     public Quiz saveQuiz(@Valid @RequestBody Quiz quiz) {
-        logger.info("POST new Quiz - {}", quiz);
+        log.info("POST new Quiz - {}", quiz);
         /* Quiz has to be explicitly set for each option and answer (for FK id purposes) */
         quiz.getOptions().forEach(option -> option.setQuiz(quiz));
         quiz.getAnswers().forEach(answer -> answer.setQuiz(quiz));
@@ -53,7 +52,7 @@ public class QuizController {
                 .getName()));
         quiz.setTimestamp(LocalDateTime.now());
         quizRepository.save(quiz);
-        logger.info("POST request: api/quizzes Body: " + quiz);
+        log.info("POST request: api/quizzes Body: " + quiz);
         return quiz;
     }
 
@@ -62,32 +61,32 @@ public class QuizController {
     public Feedback answerQuiz(@RequestBody List<Answer> answers,
                                @PathVariable long id) {
         // todo: move all this logic to ? QuizService?
-        answers.forEach(System.out::println);
+//        answers.forEach(System.out::println);
 
         Optional<Quiz> optionalQuiz = quizRepository.findById(id);
-        boolean success = false;
+        boolean success;
         Set<Integer> dbAnswers;
+
         if (optionalQuiz.isPresent()) {
             Quiz quiz = optionalQuiz.get();
             dbAnswers = quiz.getAnswers().stream().map(Answer::getAnswer).collect(Collectors.toSet());
             Set<Integer> userAnswers = answers.stream().map(Answer::getAnswer).collect(Collectors.toSet());
-            if (dbAnswers.equals(userAnswers)) {
-                success = true;
-                /* Get the current username from currently logged in user */
-                long userID = UserService.findUserID(SecurityContextHolder.getContext()
-                        .getAuthentication().getName()); // fixme returns -1
-                /* Save a completion of the quiz to the COMPLETED_TABLE */
-                completedRepository.save(new Completed(quiz.getId(),
-                        LocalDateTime.now(), userID));
-            }
-            System.out.println("db answers: " + dbAnswers + "\nuser answers: " + userAnswers);
+
+            /* Get the current username from logged in user */
+            User user = UserService.findUserByName(SecurityContextHolder.getContext()
+                    .getAuthentication().getName());
+
+            success = dbAnswers.equals(userAnswers);
+            /* Save a completion of the quiz to the COMPLETED_QUIZZES table */
+            completedQuizzesRepository.save(new CompletedQuizzes(user, LocalDateTime.now(), success));
+            log.info("db answers: " + dbAnswers + "\nuser answers: " + userAnswers);
         } else {
             /* If no quiz at Id found */
             throw new QuizNotFoundException((int) id);
         }
-        Feedback feedback = new Feedback(success,
+
+        return new Feedback(success,
                 !dbAnswers.isEmpty() ? dbAnswers.stream().mapToInt(Integer::intValue).toArray() : new int[]{});
-        return feedback;
     }
 
     /* *** GET request mappings *** */
@@ -115,9 +114,9 @@ public class QuizController {
     }
 
     @RequestMapping(value = "/api/quizzes/completed", method = RequestMethod.GET)
-    public Page<Completed> getAllCompletions(@RequestParam(defaultValue = "0") int pageNo,
-                                             @RequestParam(defaultValue = "10") int pageSize,
-                                             @RequestParam(defaultValue = "completed_at") String sortBy) {
+    public Page<CompletedQuizzes> getAllCompletions(@RequestParam(defaultValue = "0") int pageNo,
+                                                    @RequestParam(defaultValue = "10") int pageSize,
+                                                    @RequestParam(defaultValue = "completed_at") String sortBy) {
 
         // this is the current user. Use this as a param when getting completed quizzes by id
         String currentUser = SecurityContextHolder.getContext()

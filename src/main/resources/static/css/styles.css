@@ -45,6 +45,12 @@ textarea {
 
 /* classes */
 
+.big-text {
+    font-family: monospace;
+    font-size: xxx-large;
+    color: cornflowerblue;
+}
+
 .container {
     display: flex;
     flex-direction: row;
