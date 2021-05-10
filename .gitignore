@@ -32,7 +32,6 @@ out/
 
 ### My ignored files ###
 src/main/resources/META-INF
-src/main/resources/static/img
 src/test/
 quizdb.mv.db
 quizdb.trace.db

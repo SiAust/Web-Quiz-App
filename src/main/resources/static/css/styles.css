@@ -4,25 +4,43 @@ html {
 
     font-family: Recursive, monospace;
     color: white;
-    background-color: darkblue;
+    background: none;
 }
 
 body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     height: 100%;
     margin: 0;
+
+    background-image: url("/img/question-mark.png");
 }
 
 button {
     height: 50px;
     width: 100px;
-    border: 2px blue dotted;
+
+    border: 2px white solid;
     border-radius: 5px;
+
+    box-shadow: 4px 4px gray;
+
     margin: 5px;
-    background-color: aliceblue;
+
+    background-color: cornflowerblue;
+
     font-family: Recursive, monospace;
+    font-size: large;
+    color: white;
+}
+
+button:active {
+    position: relative;
+    box-shadow: none;
+    top: 4px;
+    left: 4px;
 }
 
 textarea {
@@ -37,6 +55,20 @@ ul {
 
 input {
     margin: 5px;
+    padding: 3px;
+
+    font-size: large;
+    font-family: Recursive, monospace;
+
+    border-radius: 3px;
+    border: none;
+}
+
+input[type="checkbox" i] {
+    height: 20px;
+    width: 20px;
+    border: white 2px solid;
+    border-radius: 3px;
 }
 
 textarea {
@@ -49,6 +81,20 @@ textarea {
     font-family: monospace;
     font-size: xxx-large;
     color: cornflowerblue;
+}
+
+.bmc-btn {
+    position: relative;
+    border: 2px white solid !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px gray;
+}
+
+.bmc-btn:active {
+    box-shadow: none;
+    top: 4px;
+    left: 4px;
+
 }
 
 .container {
@@ -98,8 +144,13 @@ textarea {
 }
 
 .options-container {
-    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    /*max-width: 400px;*/
+    justify-content: center;
+
     margin: 0 20% 0 20%;
+
 }
 
 .option {
@@ -114,13 +165,47 @@ textarea {
 
     margin: 0 auto 10px auto;
     padding: 20px;
-    width: 500px;
-    /*height: 50px;*/
+    max-width: 500px;
 
-    border: 4px orange dotted;
+    /*border: 4px orange dotted;*/
     border-radius: 5px;
 
     background-color: darkslateblue;
 
     text-align: center;
+}
+
+.welcome-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    margin: 2rem;
+}
+
+/* Media queries */
+@media screen and (max-width: 700px) {
+
+    .container {
+        flex-direction: column;
+    }
+    .sub-container {
+        width: 100%;
+    }
+    .user-menu-container {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+    #user-quiz-info {
+        display: none;
+    }
+
+    .welcome-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
 }
