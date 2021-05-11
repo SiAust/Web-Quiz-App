@@ -19,8 +19,8 @@ body {
 }
 
 button {
-    height: 50px;
-    width: 100px;
+    height: 3rem;
+    width: 8rem;
 
     border: 2px white solid;
     border-radius: 5px;
@@ -43,15 +43,8 @@ button:active {
     left: 4px;
 }
 
-textarea {
-    resize: none;
-}
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
+
 
 input {
     margin: 5px;
@@ -72,15 +65,38 @@ input[type="checkbox" i] {
 }
 
 textarea {
+    resize: none;
     width: 100%;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 /* classes */
+
+.answer-correct {
+    background-color: lightgreen;
+    border: 2px darkslateblue solid;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.answer-incorrect {
+    background-color: red;
+    border: 2px darkslateblue solid;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 
 .big-text {
     font-family: monospace;
     font-size: xxx-large;
     color: cornflowerblue;
+
+    margin: 1rem;
 }
 
 .bmc-btn {
@@ -149,8 +165,14 @@ textarea {
     /*max-width: 400px;*/
     justify-content: center;
 
-    margin: 0 20% 0 20%;
+    margin: 2rem 20% 2rem 20%;
 
+}
+
+.options-container label {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem 0 0;
 }
 
 .option {
@@ -165,6 +187,7 @@ textarea {
 
     margin: 0 auto 10px auto;
     padding: 20px;
+    width: 100%;
     max-width: 500px;
 
     /*border: 4px orange dotted;*/
@@ -198,14 +221,40 @@ textarea {
 
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 580px) {
+    /* User profile */
     #user-quiz-info {
         display: none;
     }
+
+    .user-menu-container button {
+        width: 3rem;
+    }
+
+    #login-btn::after {
+        content: "" !important;
+    }
+
+    #logout-btn::after {
+        content: "" !important;
+    }
+
+    #register-btn::after {
+        content: "" !important;
+    }
+
+    button i {
+        display: inline-block !important;
+    }
+
+    /* *** */
 
     .welcome-menu {
         flex-direction: column;
         align-items: center;
     }
+
+
+
 
 }
