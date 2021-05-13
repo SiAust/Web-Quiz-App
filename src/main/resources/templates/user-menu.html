@@ -9,6 +9,7 @@
     <title>User Menu</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/css/user-menu.css">
+
 </head>
 
 <body>
@@ -17,16 +18,23 @@
 
     <div><span class="big-text" sec:authentication="name"></span></div>
 
-    <div  sec:authorize="isAuthenticated()">Completed Quizzes <span th:text="${completedQuizzes}"></span></div>
+    <div class="flex-column" id="user-quiz-info">
 
-    <div  sec:authorize="isAuthenticated()">Correct answers <span th:text="${correctAnswers}"></span></div>
+        <div sec:authorize="isAuthenticated()">Completed Quizzes: <span th:text="${completedQuizzes}"></span></div>
 
-    <div    sec:authorize="isAuthenticated()"
+        <div sec:authorize="isAuthenticated()">Correct answers: <span th:text="${correctAnswers}"></span></div>
+
+    </div>
+
+    <div class="flex-column" sec:authorize="isAuthenticated()"
             th:with="result=${(correctAnswers * 1.0) / (completedQuizzes * 1.0) * 100}">
 
-        <span class="big-text"
+        <span th:if="${completedQuizzes != 0 and correctAnswers != 0}" class="big-text"
             th:text="${#numbers.formatDecimal(result, 2, 0) + '%'}">
+        </span>
 
+        <span th:if="${completedQuizzes == 0 or correctAnswers == 0}" class="big-text">
+            0%
         </span>
 
         <p>Success rate!</p>
@@ -35,18 +43,24 @@
 
     <div>
 
-        <div class="flex-column">
+        <div class="flex-row">
 
             <a sec:authorize="!isAuthenticated()" th:href="@{/register}">
-                <button>Register</button>
+                <button id="register-btn">
+                    <i class="fas fa-user-plus"></i>
+                </button>
             </a>
 
             <form sec:authorize="!isAuthenticated()" action="#" th:action="@{/login}" method="get">
-                <button type="submit">Login</button>
+                <button id="login-btn" type="submit">
+                    <i class="fas fa-user"></i>
+                </button>
             </form>
 
             <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="get">
-                <button type="submit">Logout</button>
+                <button id="logout-btn" type="submit">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
             </form>
         </div>
 

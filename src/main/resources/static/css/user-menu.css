@@ -1,14 +1,34 @@
 .user-menu-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
-    padding: 5px;
+    position: sticky;
+    top: 0;
+    left: 0;
 
-    height: 300px;
-    width: 200px;
+    padding: 1%;
+
+    height: 120px;
+    width: 98%;
 
     background-color: darkslateblue;
-    border: 4px dotted orange;
+    /*border: 4px dotted orange;*/
+}
+
+#user-quiz-info {
+    align-items: normal;
+}
+
+#login-btn::after {
+    content: "Login";
+}
+
+#logout-btn::after {
+    content: "Logout";
+}
+
+#register-btn::after {
+    content: "Register";
 }

@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 
@@ -18,10 +19,10 @@
             <button type="submit">Login</button>
         </form>
 
-<!--        <div>-->
-<!--            -->
-<!--            <ul th:if="${#fields.hasErrors('global')}">-->
-<!--                <li th:each="err : ${#fields.errors('global')}" th:text="${err}"></li>-->
+<!--        <div>--> <!-- todo display log in errors to user -->
+
+<!--            <ul th:if="${#fields.hasGlobalErrors()}">-->
+<!--                <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>-->
 <!--            </ul>-->
 
 <!--        </div>-->

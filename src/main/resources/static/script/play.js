@@ -125,8 +125,8 @@ ANSWER_BTN.addEventListener("click", function () { // todo error if answer corre
 
 const highlightCorrectAnswers = (array) => {
     for (let i = 0; i < array.length; i++) {
-        document.getElementById("label" + (array[i] - 1))
-            .style.backgroundColor = "lightgreen"
+      document.getElementById("label" + (array[i] -1))
+            .parentElement.classList.add("answer-correct")
     }
 }
 
@@ -137,8 +137,8 @@ const highlightIncorrectAnswers = (correctAnsArr) => {
     let filteredArr = USER_ANSWERS.filter(value => !correctAnsArr.includes(value))
     console.log("filteredArr: " + filteredArr)
     for (let i = 0; i <filteredArr.length; i++) {
-        document.getElementById("label" + (filteredArr[i] - 1))
-            .style.backgroundColor = "red"
+        document.getElementById("label" + (filteredArr[i] -1))
+            .parentElement.classList.add("answer-incorrect")
     }
     console.log("USER_ANSWERS: " + USER_ANSWERS)
 }

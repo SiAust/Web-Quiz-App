@@ -5,30 +5,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Play quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+    <div class="sub-container">
+        <p>Question <span id="current-question"></span> of <span class="total-questions"></span></p>
+    </div>
+
     <div class="sub-container main">
-        <p id="title"></p>
+        <p class="big-text" id="title"></p>
         <p id="question"></p>
         <div class="options-container" id="options">
         </div>
     </div>
 
-    <div class="sub-container">
-        <p>Question <span id="current-question"></span> of <span class="total-questions"></span></p>
-    </div>
-
-    <div class="sub-container">
-        <p>Score: <span id="user-score">0</span> out of <span class="total-questions"></span></p>
-    </div>
-
     <div class="center">
         <button id="check-answer">Check Answer</button>
         <button id="next-question">Next Question</button>
+    </div>
+
+    <div class="sub-container">
+        <p class="big-text">Score: <span id="user-score">0</span> out of <span class="total-questions"></span></p>
     </div>
 
     <div class="center">
