@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Component
@@ -25,11 +22,12 @@ public class User {
 
     @Column(unique = true) // todo catch exception
     @NotEmpty(message = "Username must not be empty")
-    @Size(min = 3, message = "Username must be at least 3 characters")
+    @Size(min = 3, max = 12, message = "Username must be between 3 and 12 characters")
     private String userName;
 
     @NotEmpty(message = "Password must not be empty")
-    @Size(min = 6, message = "Password must be at least 6 characters")
+    @Min(value = 6, message = "Password must be at least 6 characters")
+    @Max(value = 12, message = "Password must be 12 or fewer characters")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

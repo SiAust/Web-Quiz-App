@@ -29,11 +29,11 @@
     <div class="flex-column" sec:authorize="isAuthenticated()"
             th:with="result=${(correctAnswers * 1.0) / (completedQuizzes * 1.0) * 100}">
 
-        <span th:if="${completedQuizzes != 0}" class="big-text"
+        <span th:if="${completedQuizzes != 0 and correctAnswers != 0}" class="big-text"
             th:text="${#numbers.formatDecimal(result, 2, 0) + '%'}">
         </span>
 
-        <span th:if="${completedQuizzes == 0}" class="big-text">
+        <span th:if="${completedQuizzes == 0 or correctAnswers == 0}" class="big-text">
             0%
         </span>
 
@@ -48,21 +48,18 @@
             <a sec:authorize="!isAuthenticated()" th:href="@{/register}">
                 <button id="register-btn">
                     <i class="fas fa-user-plus"></i>
-
                 </button>
             </a>
 
             <form sec:authorize="!isAuthenticated()" action="#" th:action="@{/login}" method="get">
                 <button id="login-btn" type="submit">
                     <i class="fas fa-user"></i>
-
                 </button>
             </form>
 
             <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="get">
                 <button id="logout-btn" type="submit">
                     <i class="fas fa-sign-out-alt"></i>
-
                 </button>
             </form>
         </div>

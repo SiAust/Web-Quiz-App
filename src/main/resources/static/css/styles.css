@@ -12,7 +12,7 @@ body {
     flex-direction: column;
     justify-content: center;
 
-    height: 100%;
+    min-height: 100%;
     margin: 0;
 
     background-image: url("/img/question-mark.png");
@@ -66,7 +66,10 @@ input[type="checkbox" i] {
 
 textarea {
     resize: none;
-    width: 100%;
+    /*width: 100%;*/
+
+    font-family: Recursive, monospace;
+    font-size: large;
 }
 
 ul {
@@ -79,16 +82,15 @@ ul {
 
 .answer-correct {
     background-color: lightgreen;
-    border: 2px darkslateblue solid;
     border-radius: 5px;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
 .answer-incorrect {
     background-color: red;
-    border: 2px darkslateblue solid;
+    /*border: 2px darkslateblue solid;*/
     border-radius: 5px;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
 .big-text {
@@ -96,7 +98,7 @@ ul {
     font-size: xxx-large;
     color: cornflowerblue;
 
-    margin: 1rem;
+    /*margin: 1rem;*/
 }
 
 .bmc-btn {
@@ -178,6 +180,10 @@ ul {
 .option {
     display: flex;
     justify-content: space-between;
+
+    height: 2rem;
+
+    border: 2px darkslateblue solid;
 }
 
 .sub-container {
@@ -207,7 +213,7 @@ ul {
 }
 
 /* Media queries */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
 
     .container {
         flex-direction: column;
@@ -221,7 +227,7 @@ ul {
 
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 425px) {
     /* User profile */
     #user-quiz-info {
         display: none;
@@ -252,6 +258,14 @@ ul {
     .welcome-menu {
         flex-direction: column;
         align-items: center;
+    }
+
+    .sub-container {
+        padding: 0;
+    }
+
+    .big-text {
+        font-size: xx-large;
     }
 
 
