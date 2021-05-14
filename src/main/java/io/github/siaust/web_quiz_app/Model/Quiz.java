@@ -4,15 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -25,11 +21,11 @@ public class Quiz {
 
     private LocalDateTime timestamp;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Won't send in JSON response
-    private long userId;
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Won't send in JSON response
+    @ManyToOne()
+    private User createdBy;
 
-    @NotBlank(message = "Title must not be blank")
-    private String title;
+    private String topic;
 
     @NotBlank(message = "Question text must not be blank")
     private String text;
@@ -53,9 +49,9 @@ public class Quiz {
     public Quiz() {
     }
 
-    public Quiz(String title, String text, boolean isMultipleChoice
+    public Quiz(String topic, String text, boolean isMultipleChoice
             , List<Option> options, List<Answer> answers) {
-        this.title = title;
+        this.topic = topic;
         this.text = text;
         this.isMultipleChoice = isMultipleChoice;
         this.options = options;
@@ -66,7 +62,7 @@ public class Quiz {
     @Override
     public String toString() {
         return "id: " + id
-                + " title: " + title
+                + " topic: " + topic
                 + " text: " + text
                 + " timeStamp: " + timestamp
                 + " isMultipleChoice: " + isMultipleChoice
@@ -74,18 +70,19 @@ public class Quiz {
                 + " answer: " + answers;
     }
 
-    @AssertTrue
-    public boolean isListValidSize() {
-        return this.options.size() <= 6;
-    }
+//    @AssertTrue
+//    public boolean isListValidSize() {
+//        return this.options.size() <= 6;
+//    }
 
     /* Getters and setters for the Spring annotation @RequestBody to function */
-    public String getTitle() {
-        return title;
+
+    public String getTopic() {
+        return topic;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getText() {
@@ -130,12 +127,21 @@ public class Quiz {
         this.id = id;
     }
 
-    public long getUserId() {
-        return userId;
+//    public long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(long userId) {
+//        this.userId = userId;
+//    }
+
+
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setCreatedBy(User user) {
+        this.createdBy = user;
     }
 
     public LocalDateTime getTimestamp() {

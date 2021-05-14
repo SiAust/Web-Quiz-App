@@ -1,16 +1,10 @@
 package io.github.siaust.web_quiz_app.Controller;
 
-import ch.qos.logback.core.boolex.EvaluationException;
-import io.github.siaust.web_quiz_app.Model.Answer;
-import io.github.siaust.web_quiz_app.Model.Option;
-import io.github.siaust.web_quiz_app.Model.Quiz;
-import io.github.siaust.web_quiz_app.Model.User;
+import io.github.siaust.web_quiz_app.Model.*;
 import io.github.siaust.web_quiz_app.Repository.CompletedQuizzesRepository;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
 import io.github.siaust.web_quiz_app.Repository.UserRepository;
-import io.github.siaust.web_quiz_app.Service.QuizService;
 import io.github.siaust.web_quiz_app.Service.UserService;
-import jdk.jfr.internal.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -50,12 +41,12 @@ public class TemplateController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getWelcome(@RequestParam(value = "name", defaultValue = "anon")
-                             String name, Model model) {
+                                     String name, Model model) {
         model.addAttribute("name", name);
         /* If the user isn't anonymous, add completedQuizzes to the model */
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             long userID = userRepository.findByUserName(
-            SecurityContextHolder.getContext().getAuthentication().getName()).get().getId();
+                    SecurityContextHolder.getContext().getAuthentication().getName()).get().getId();
             model.addAttribute("completedQuizzes", completedQuizzesRepository.countAllByUser_id(userID));
             model.addAttribute("correctAnswers",
                     completedQuizzesRepository.countAllByUser_idAndWasCorrectTrue(userID));
@@ -109,15 +100,18 @@ public class TemplateController {
 
     /* Landing page to display the initial form */
     @RequestMapping(value = "/create")
-    public String createQuizForm(final Quiz quiz) {
-//        Quiz quiz = new Quiz();
+    public String createQuizForm(final Quiz quiz, Model model) {
+
+        model.addAttribute("allTopics", Arrays.asList(Topic.ALL));
+
         List<Option> options = Arrays.asList(new Option(), new Option());
         quiz.setOptions(options);
         List<Answer> answers = Arrays.asList(new Answer(), new Answer());
         quiz.setAnswers(answers);
-//        model.addAttribute("quiz", quiz);
+
         return "create";
     }
+
     /* Called when user submits form */
     @RequestMapping(value = "/create", params = {"save"})
     public String saveQuizFromForm(@Valid final Quiz quiz, BindingResult bindingResult) {
@@ -130,9 +124,11 @@ public class TemplateController {
         quiz.getAnswers().removeIf(answer -> answer.getAnswer() == 0);
         quiz.getOptions().forEach(option -> option.setQuiz(quiz));
         quiz.getAnswers().forEach(answer -> answer.setQuiz(quiz));
-        /* quiz.setUserId(UserService.findUserID(SecurityContextHolder
+        /* Set user ID for submitted quiz */
+        quiz.setCreatedBy(UserService.findUserByName(SecurityContextHolder
                 .getContext().getAuthentication()
-                .getName()));*/ // todo implement auth
+                .getName()));
+        /* Set timestamp */
         quiz.setTimestamp(LocalDateTime.now());
         log.info("Quiz form submitted: {}", quiz);
         quizRepository.save(quiz);
@@ -145,9 +141,9 @@ public class TemplateController {
         if (bindingResult.hasFieldErrors("options")) {
             log.info("Binding result error on options");
             bindingResult.getFieldErrors().forEach(fieldError -> System.out.println("Field Error: " + fieldError));
-           if (bindingResult.getFieldError("options").getDefaultMessage().startsWith("Must be at least two")) {
-               return "create";
-           }
+            if (bindingResult.getFieldError("options").getDefaultMessage().startsWith("Must be at least two")) {
+                return "create";
+            }
         }
         quiz.getOptions().add(new Option());
         quiz.getAnswers().add(new Answer());

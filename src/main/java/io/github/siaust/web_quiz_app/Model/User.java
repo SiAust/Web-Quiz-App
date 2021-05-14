@@ -18,6 +18,7 @@ public class User {
     @Column(unique = true)
     @Email(message = "Email be correctly formatted")
     @NotBlank(message = "Email must not be empty") // todo need this with @Email?
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
     @Column(unique = true) // todo catch exception
@@ -26,15 +27,18 @@ public class User {
     private String userName;
 
     @NotEmpty(message = "Password must not be empty")
-    @Min(value = 6, message = "Password must be at least 6 characters")
-    @Max(value = 12, message = "Password must be 12 or fewer characters")
+    @Size(min = 6, max = 12, message = "Password must be between 6 - 12 characters")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CompletedQuizzes> completedQuizzes;
+
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
+    private List<Quiz> quizzes;
 
     public User(String email, String userName, String password) {
         this.email = email;

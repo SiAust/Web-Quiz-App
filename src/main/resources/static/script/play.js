@@ -1,4 +1,5 @@
-const TITLE = document.getElementById("title")
+const TOPIC = document.getElementById('topic-type')
+const SUBMITTED_BY = document.getElementById('user-name')
 const QUESTION = document.getElementById("question")
 const OPTIONS_CONT = document.getElementById("options")
 const CURRENT_Q_SPAN = document.getElementById("current-question")
@@ -16,7 +17,7 @@ let USER_ANSWERS = []
 let currentQuestion
 let score = 0
 
-// Get quizzes from API
+// Get quizzes from API // todo json object has changed properties
 getQuizzesRequest.open("GET", "/api/quizzes", true)
 getQuizzesRequest.onload = function () {
     let data = JSON.parse(this.response)
@@ -37,8 +38,12 @@ getQuizzesRequest.send()
 function updateView(quiz) {
     // Clear all previous children from OPTIONS_CONT
     removeAllChildren(OPTIONS_CONT)
+
+    TOPIC.innerHTML = quiz.topic
+    SUBMITTED_BY.innerHTML = quiz.createdBy.userName
+
     let answerType = quiz.isMultipleChoice ? "checkbox" : "radio"
-    TITLE.innerHTML = quiz.title
+    // TITLE.innerHTML = quiz.title
     QUESTION.innerHTML = quiz.text
     let options = quiz.options
     for (let i = 0; i < options.length; i++) {
@@ -82,8 +87,8 @@ NEXT_Q_BTN.addEventListener("click", function () {
 const toggleNextQBTN = (toggle) => {
     if (toggle) { // turn "on" next button
         NEXT_Q_BTN.disabled = false
-        NEXT_Q_BTN.style.backgroundColor = "aliceblue"
-        NEXT_Q_BTN.style.border = "2px blue dotted"
+        NEXT_Q_BTN.style.backgroundColor = "cornflowerblue"
+        NEXT_Q_BTN.style.border = "2px white solid"
     } else { // turn "off" next button
         NEXT_Q_BTN.disabled = true
         NEXT_Q_BTN.style.backgroundColor = "lightgrey"
@@ -123,6 +128,19 @@ ANSWER_BTN.addEventListener("click", function () { // todo error if answer corre
     toggleNextQBTN(true)
 })
 
+
+const toggleAnsBTN = (toggle) => {
+    if (toggle) { // turn "on" next button
+        ANSWER_BTN.disabled = false
+        ANSWER_BTN.style.backgroundColor = "cornflowerblue"
+        ANSWER_BTN.style.border = "2px white solid"
+    } else { // turn "off" next button
+        ANSWER_BTN.disabled = true
+        ANSWER_BTN.style.backgroundColor = "lightgrey"
+        ANSWER_BTN.style.border = "2px grey dotted"
+    }
+};
+
 const highlightCorrectAnswers = (array) => {
     for (let i = 0; i < array.length; i++) {
       document.getElementById("label" + (array[i] -1))
@@ -160,18 +178,6 @@ const addUserAnswersToObject = (array) => {
                 }
             }
         }
-    }
-};
-
-const toggleAnsBTN = (toggle) => {
-    if (toggle) { // turn "on" next button
-        ANSWER_BTN.disabled = false
-        ANSWER_BTN.style.backgroundColor = "aliceblue"
-        ANSWER_BTN.style.border = "2px blue dotted"
-    } else { // turn "off" next button
-        ANSWER_BTN.disabled = true
-        ANSWER_BTN.style.backgroundColor = "lightgrey"
-        ANSWER_BTN.style.border = "2px grey dotted"
     }
 };
 
