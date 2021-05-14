@@ -1,0 +1,16 @@
+.topic {
+    width: 100%;
+    height: 4rem;
+
+    margin: 1rem;
+    padding: 1rem;
+
+    box-sizing: border-box;
+
+    background: midnightblue;
+
+}
+
+.sub-container {
+    padding: 1rem 0;
+}

@@ -47,7 +47,7 @@ public class QuizController {
         quiz.getOptions().forEach(option -> option.setQuiz(quiz));
         quiz.getAnswers().forEach(answer -> answer.setQuiz(quiz));
 
-        quiz.setUserId(UserService.findUserID(SecurityContextHolder
+        quiz.setCreatedBy(UserService.findUserByName(SecurityContextHolder
                 .getContext().getAuthentication()
                 .getName()));
         quiz.setTimestamp(LocalDateTime.now());

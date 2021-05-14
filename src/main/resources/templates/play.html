@@ -6,18 +6,26 @@
     <meta charset="UTF-8">
     <title>Play quiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/play.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="sub-container">
-        <p>Question <span id="current-question"></span> of <span class="total-questions"></span></p>
+    <div class="sub-container flex-column">
+        <div class="topic">
+            TOPIC <span id="topic-type" class="big-text"></span>
+        </div>
+        <p class="smaller">Question <span id="current-question"></span> of <span class="total-questions"></span></p>
+        <p class="smaller">Submitted by <span class="fancy-text" id="user-name"></span></p>
     </div>
 
     <div class="sub-container main">
-        <p class="big-text" id="title"></p>
         <p id="question"></p>
         <div class="options-container" id="options">
         </div>

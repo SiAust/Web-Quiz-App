@@ -26,10 +26,9 @@ public class UserService {
      * @param username the username of the User (email)
      * @return the automatically assigned ID of the User or -1 if no matching User. */
     public static long findUserID(String username) { // todo change from static?
-        Optional<User> optionalUser = userRepository.findByEmail(username);
+        Optional<User> optionalUser = userRepository.findByUserName(username);
         return optionalUser.map(User::getId).orElse(-1L);
     }
-
 
     /** Validates a User before persisting that User to the USER_TABLE.
      * @param user The User to be validated and persisted. */

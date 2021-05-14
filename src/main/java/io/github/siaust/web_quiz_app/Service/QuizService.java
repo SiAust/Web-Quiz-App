@@ -1,6 +1,5 @@
 package io.github.siaust.web_quiz_app.Service;
 
-import io.github.siaust.web_quiz_app.Exception.QuizNotFoundException;
 import io.github.siaust.web_quiz_app.Exception.UserAccessDenied;
 import io.github.siaust.web_quiz_app.Model.Quiz;
 import io.github.siaust.web_quiz_app.Repository.QuizRepository;
@@ -14,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,9 +66,9 @@ public class QuizService {
 
         if (optionalQuiz.isPresent()) {
             System.out.println("Quiz is present. Quiz ID: " + optionalQuiz.get().getId()
-            + " Quiz userID: " + optionalQuiz.get().getUserId()
+            + " Quiz userID: " + optionalQuiz.get().getCreatedBy().getId()
             + " logged in userID: " + id);
-            if (id == optionalQuiz.get().getUserId()) {
+            if (id == optionalQuiz.get().getCreatedBy().getId()) {
                 quizRepository.delete(optionalQuiz.get());
             } else {
                 throw new UserAccessDenied("User does not have permission to delete quiz.");

@@ -1,4 +1,4 @@
-/* tags */
+/* element tags */
 html {
     height: 100%;
 
@@ -42,9 +42,6 @@ button:active {
     top: 4px;
     left: 4px;
 }
-
-
-
 
 input {
     margin: 5px;
@@ -141,6 +138,13 @@ ul {
     margin: 5px;
 }
 
+.fancy-text {
+    font-family: Architects Daughter, monospace;
+    /*font-style: italic;*/
+    color: cornflowerblue;
+    font-size: x-large;
+}
+
 .flex {
     display: flex;
 }
@@ -186,13 +190,17 @@ ul {
     border: 2px darkslateblue solid;
 }
 
+.smaller {
+    margin: 0.5em;
+}
+
 .sub-container {
     display: flex;
     align-content: center;
     justify-content: center;
 
     margin: 0 auto 10px auto;
-    padding: 20px;
+    padding: 1rem;
     width: 100%;
     max-width: 500px;
 
@@ -260,8 +268,13 @@ ul {
         align-items: center;
     }
 
+    .container {
+        width: auto;
+    }
+
     .sub-container {
-        padding: 0;
+        padding: 1rem 0;
+        border-radius: 0;
     }
 
     .big-text {
