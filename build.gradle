@@ -32,7 +32,7 @@ dependencies {
     // Security
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security' // , version: '2.3.1.RELEASE'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-
+\
     // For colour output to console
 //    implementation group: 'com.diogonunes', name: 'JCDP', version: '4.0.2'
 

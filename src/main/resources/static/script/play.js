@@ -5,6 +5,9 @@ const OPTIONS_CONT = document.getElementById("options")
 const CURRENT_Q_SPAN = document.getElementById("current-question")
 const USER_SCORE_SPAN = document.getElementById("user-score")
 
+const RESULT_INFO = document.getElementById("result-info")
+const RESULT_MSG = document.getElementById("result-msg")
+
 // Buttons
 const ANSWER_BTN = document.getElementById("check-answer")
 const NEXT_Q_BTN = document.getElementById("next-question")
@@ -38,6 +41,9 @@ getQuizzesRequest.send()
 function updateView(quiz) {
     // Clear all previous children from OPTIONS_CONT
     removeAllChildren(OPTIONS_CONT)
+
+    // Hide result info
+    RESULT_INFO.style.display = "none"
 
     TOPIC.innerHTML = quiz.topic
     SUBMITTED_BY.innerHTML = quiz.createdBy.userName
@@ -111,7 +117,15 @@ ANSWER_BTN.addEventListener("click", function () { // todo error if answer corre
             score++
             USER_SCORE_SPAN.innerHTML = score.toString()
             highlightCorrectAnswers(jsonResponse.answers)
+            // show result message
+            RESULT_INFO.style.display = "flex"
+            RESULT_INFO.classList.value = "correct-msg"
+            RESULT_MSG.textContent = "CORRECT, WELL DONE!"
         } else {
+            // show result message
+            RESULT_INFO.style.display = "flex"
+            RESULT_INFO.classList.value = "incorrect-msg"
+            RESULT_MSG.textContent = "INCORRECT!"
             highlightCorrectAnswers(jsonResponse.answers)
             highlightIncorrectAnswers(jsonResponse.answers)
         }
