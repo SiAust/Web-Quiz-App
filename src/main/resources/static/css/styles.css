@@ -84,7 +84,7 @@ ul {
 }
 
 .answer-incorrect {
-    background-color: red;
+    background-color: indianred;
     /*border: 2px darkslateblue solid;*/
     border-radius: 5px;
     /*box-sizing: border-box;*/
@@ -184,6 +184,7 @@ ul {
 .option {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     height: 2rem;
 

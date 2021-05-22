@@ -33,7 +33,8 @@
   </div>
 
   <div>
-    <strong>Correct Answers</strong>
+    <!-- todo th:if statement format string answer/s conditional on answers > 1 ? -->
+    <strong>Correct Answer(s)</strong>
     <div th:each="answer, rowStat : ${quiz.answers}">
       <p th:text="${quiz.options[answer.answer -1].option}"></p>
     </div>
