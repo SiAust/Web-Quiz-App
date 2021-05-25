@@ -13,10 +13,11 @@ import java.util.List;
 
 @Component
 @Entity(name = "quiz_table")
+@SequenceGenerator(name = "quizSeq", initialValue = 200)
 public class Quiz {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quizSeq")
     private long id;
 
     private LocalDateTime timestamp;

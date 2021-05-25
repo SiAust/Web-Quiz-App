@@ -6,6 +6,7 @@ import io.github.siaust.web_quiz_app.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,9 +18,12 @@ public class UserService {
 
     private static UserRepository userRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         UserService.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /** Tries to find the user in the database by username.
@@ -47,6 +51,10 @@ public class UserService {
         if ((userRepository.findByEmail(user.getEmail()).isPresent())) {
             throw new InvalidUserException("user already exists");
         }
+        
+        // Encrypts the user password
+        String password = user.getPassword();
+        user.setPassword(passwordEncoder.encode(password));
 
         logger.info("User " + user.getEmail() + " registered");
         return userRepository.save(user); // todo null check?

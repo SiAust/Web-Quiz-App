@@ -1,7 +1,12 @@
 -- MERGEing admin user to quizdb.mv.db table
 
 MERGE INTO user (id, email, password, roles, user_name)
-VALUES (1, 'simon.aust@googmail.com', 'password', 'ADMIN', 'Admin');
+VALUES 
+    (1, 
+    'simon.aust@googmail.com', 
+    '$2a$10$WkAIpqG0XnxVA1bJucss1.iKggBGXaeNXlKFUmZVDimdkbk1EOrtC', 
+    'ADMIN', 
+    'Admin');
 
 -- Initial Quiz questions inserted into the quizdb.mv.db table
 
