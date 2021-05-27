@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 
 @Component
 @Entity
+@SequenceGenerator(name = "answerSeq", initialValue = 200)
 public class Answer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answerSeq")
     private int id;
 
     @ManyToOne

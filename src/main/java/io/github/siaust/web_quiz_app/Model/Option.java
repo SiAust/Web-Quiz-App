@@ -11,10 +11,11 @@ import javax.validation.constraints.Size;
 
 @Component
 @Entity(name = "options_table")
+@SequenceGenerator(name = "optionSeq", initialValue = 200)
 public class Option {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "optionSeq")
     private long id;
 
     @ManyToOne

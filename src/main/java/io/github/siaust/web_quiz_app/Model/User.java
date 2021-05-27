@@ -9,10 +9,11 @@ import java.util.List;
 
 @Component
 @Entity
+@SequenceGenerator(name = "userSeq", initialValue = 2)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
     private long id;
 
     @Column(unique = true)
@@ -27,7 +28,7 @@ public class User {
     private String userName;
 
     @NotEmpty(message = "Password must not be empty")
-    @Size(min = 6, max = 12, message = "Password must be between 6 - 12 characters")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
