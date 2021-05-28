@@ -17,37 +17,40 @@
 
 <body>
 
-    <div class="sub-container flex-column">
-        <div class="topic">
-            TOPIC <span id="topic-type" class="big-text"></span>
+    <div class="container col">
+
+        <div class="sub-container flex-column">
+            <div class="topic">
+                TOPIC <span id="topic-type" class="big-text"></span>
+            </div>
+            <p class="smaller">Question <span id="current-question"></span> of <span class="total-questions"></span></p>
+            <p class="smaller">Submitted by <span class="fancy-text" id="user-name"></span></p>
         </div>
-        <p class="smaller">Question <span id="current-question"></span> of <span class="total-questions"></span></p>
-        <p class="smaller">Submitted by <span class="fancy-text" id="user-name"></span></p>
-    </div>
 
-    <div class="sub-container main">
-        <p id="question"></p>
-        <div class="options-container" id="options"></div>
-        <div class="correct-msg" id="result-info">
-            <span id="result-msg"></span>
-        </div>  
-    </div>
+        <div class="sub-container main">
+            <p id="question"></p>
+            <div class="options-container" id="options"></div>
+            <div class="correct-msg" id="result-info">
+                <span id="result-msg"></span>
+            </div>  
+        </div>
 
-    <div class="center">
-        <button id="check-answer">Check Answer</button>
-        <button id="next-question">Next Question</button>
-    </div>
+        <div class="center">
+            <button id="check-answer">Check Answer</button>
+            <button id="next-question">Next Question</button>
+        </div>
 
-    <div class="sub-container">
-        <p class="big-text">Score: <span id="user-score">0</span> out of <span class="total-questions"></span></p>
-    </div>
+        <div class="sub-container">
+            <p class="big-text">Score: <span id="user-score">0</span> out of <span class="total-questions"></span></p>
+        </div>
 
-    <div class="center">
-        <a th:href="@{/}">
-            <button>Home</button>
-        </a>
-    </div>
+        <div class="center">
+            <a th:href="@{/}">
+                <button>Home</button>
+            </a>
+        </div>
 
+    </div>  
     <script src="script/play.js"></script>
 
 </body>

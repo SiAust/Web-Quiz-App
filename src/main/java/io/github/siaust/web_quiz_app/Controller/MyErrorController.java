@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -29,7 +31,12 @@ public class MyErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         ServletWebRequest webRequest = new ServletWebRequest(request);
-        model.addAllAttributes(errorAttributes.getErrorAttributes(webRequest, true));
+        model.addAllAttributes(errorAttributes
+            .getErrorAttributes(webRequest, 
+                ErrorAttributeOptions.of(
+                    Include.STACK_TRACE, 
+                    Include.EXCEPTION,
+                    Include.MESSAGE)));
         
         return "error";
     }
