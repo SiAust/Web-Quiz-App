@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Error</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+
+<body>
+
+<div class="container col">
+
+    <div class="sub-container main">
+
+        <div>
+            <h1>Oops...something went wrong, sorry.</h1>
+            <!-- <P th:text="${error}"></P> -->
+            <div>
+                <h2>Here's the details</h2>
+                <p>
+                    <strong>Error code: </strong>  
+                    <span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.status_code')}"></span>
+                </p>
+                <p sec:authorize="hasRole('ROLE_ADMIN')">
+                    <strong>Error details:</strong><br>
+                    <span th:text="${message}"></span>
+                </p>
+                <p sec:authorize="hasRole('ROLE_ADMIN')">
+                    <strong>Stack trace:</strong><br>
+                    <pre><code th:text="${trace}"></code></pre>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="center">
+    <a th:href="@{/}">
+        <button>Home</button>
+    </a>
+    </div>
+
+</div>
+
+</body>
+
+</html>

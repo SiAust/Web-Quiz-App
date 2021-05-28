@@ -61,6 +61,12 @@ input[type="checkbox" i] {
     border-radius: 3px;
 }
 
+pre {
+    white-space: pre-wrap;
+    text-align: left;
+    overflow: auto;
+}
+
 textarea {
     resize: none;
     /*width: 100%;*/
@@ -114,12 +120,19 @@ ul {
 
 .container {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
 
     width: 80%;
     margin: auto;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.col {
+    flex-direction: column;
 }
 
 .container > .sub-container {
@@ -203,9 +216,8 @@ ul {
     margin: 0 auto 10px auto;
     padding: 1rem;
     width: 100%;
-    max-width: 500px;
+    /* max-width: 500px; */
 
-    /*border: 4px orange dotted;*/
     border-radius: 5px;
 
     background-color: darkslateblue;
