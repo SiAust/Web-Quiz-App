@@ -7,8 +7,20 @@
     <title>Welcome to Quiz API</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Meta tags for sharing to Twitter and Facebook, adds info to cards -->
+    <meta property="og:title" content="Quiz Time Web App">
+    <meta property="og:description" content="Play and share user created quizzes, and make your own!">
+    <meta property="og:image" content="https://spring-web-quiz.herokuapp.com/img/share-card.png">
+    <meta property="og:url" content="https://spring-web-quiz.herokuapp.com/">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta property="og:site_name" content="Quiz Time Ltd">
+    <meta name="twitter:image:alt" content="Quiz Time logo card">
+
+    <!-- Local Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/css/user-menu.css">
+
     <!-- Recursive font   -->
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
     <!-- Font Awesome   -->
@@ -81,16 +93,27 @@
 
 </div>
 
+<!-- "Buy me a coffee" button -->
+<footer>
 
+    <div class="slant"></div>
 
-    <!-- "Buy me a coffee" button -->
-    <div class="center">
+    <div class="center col">
+
+        <p>
+            Made with <i class="fas fa-coffee"></i> and <i class="fas fa-laptop-code"></i> 
+            by <a href="https://www.simonaust.co.uk" target="_blank">Simon Aust</a>
+        </p>
+
         <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
                 data-name="bmc-button" data-slug="simonaust" data-color="#FFDD00"
                 data-emoji="" data-font="Cookie" data-text="Buy me a coffee"
                 data-outline-color="#000000" data-font-color="#000000"
                 data-coffee-color="#ffffff">
         </script>
+
     </div>
+
+</footer>
 
 </body>
