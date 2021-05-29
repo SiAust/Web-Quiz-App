@@ -16,7 +16,10 @@
 
 <div th:fragment="userMenu" class="user-menu-container">
 
-    <div><span class="big-text" sec:authentication="name"></span></div>
+    <div>
+        <i class="fas fa-user" style="font-size: 3rem; color: cornflowerblue;"></i>
+        <span class="big-text" sec:authentication="name"></span>
+    </div>
 
     <div class="flex-column" id="user-quiz-info">
 

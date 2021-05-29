@@ -2,6 +2,7 @@
 html {
     height: 100%;
 
+    font-size: 16px;
     font-family: Recursive, monospace;
     color: white;
     background: none;
@@ -41,6 +42,19 @@ button:active {
     box-shadow: none;
     top: 4px;
     left: 4px;
+}
+
+footer {
+    position: relative;
+
+    z-index: 1;
+
+    height: 10rem;
+
+    background-color: white;
+    /* box-shadow: -2px -2px 10px gray; */
+
+    color: cornflowerblue;
 }
 
 input {
@@ -104,6 +118,25 @@ ul {
     /*margin: 1rem;*/
 }
 
+/* Footer info, Buy Me a Coffee btn */
+
+.slant {
+    position: absolute;
+
+    z-index: -1;
+
+    background-color: white;
+
+    width: 100%;
+    height: 100%;
+
+    /* box-shadow: 0px -2px 2px 0 white; */
+
+    transform: skewY(358deg);
+    -ms-transform: skewY(358deg);
+    transform-origin: top left;
+}
+
 .bmc-btn {
     position: relative;
     border: 2px white solid !important;
@@ -115,7 +148,6 @@ ul {
     box-shadow: none;
     top: 4px;
     left: 4px;
-
 }
 
 .container {
@@ -142,6 +174,8 @@ ul {
 .center {
     display: flex;
     justify-content: center;
+    align-items: center;
+
     padding: 10px;
 }
 

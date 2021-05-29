@@ -14,7 +14,8 @@
     width: 98%;
 
     background-color: darkslateblue;
-    /*border: 4px dotted orange;*/
+
+    box-shadow: 0px 1px 6px black;
 }
 
 #user-quiz-info {

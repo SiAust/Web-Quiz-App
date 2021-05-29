@@ -12,55 +12,60 @@
 </head>
 
 <body>
-    <div class="sub-container main">
 
-        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+    <div class="container col">
 
-            <div class="flex-column">
+        <div class="sub-container main">
 
-                <table>
+            <form action="#" th:action="@{/register}" th:object="${user}" method="post">
 
-                    <tr>
-                        <td>Username:</td>
-                        <td>
-                            <input type="text" th:field="*{userName}">
-                        </td>
-                    </tr>
+                <div class="flex-column">
 
-                    <tr>
-                        <td>Email:</td>
-                        <td>
-                            <input type="text" th:field="*{email}">
-                        </td>
-                    </tr>
+                    <table>
 
-                    <tr>
-                        <td>Password:</td>
-                        <td>
-                            <input type="password" th:field="*{password}">
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>Username:</td>
+                            <td>
+                                <input type="text" th:field="*{userName}">
+                            </td>
+                        </tr>
 
-                </table>
+                        <tr>
+                            <td>Email:</td>
+                            <td>
+                                <input type="text" th:field="*{email}">
+                            </td>
+                        </tr>
 
-            </div>
+                        <tr>
+                            <td>Password:</td>
+                            <td>
+                                <input type="password" th:field="*{password}">
+                            </td>
+                        </tr>
 
-            <div th:if="${#fields.hasErrors('*')}">
-                <div class="error"
-                     th:each="err : ${#fields.errors('*')}"
-                     th:text="${err}"></div>
-            </div>
+                    </table>
 
-            <button type="submit" name="save">Submit</button>
+                </div>
 
-        </form>
+                <div th:if="${#fields.hasErrors('*')}">
+                    <div class="error"
+                        th:each="err : ${#fields.errors('*')}"
+                        th:text="${err}"></div>
+                </div>
 
-    </div>
+                <button type="submit" name="save">Submit</button>
 
-    <div class="center">
-        <a th:href="@{/}">
-            <button>Home</button>
-        </a>
+            </form>
+
+        </div>
+
+        <div class="center">
+            <a th:href="@{/}">
+                <button>Home</button>
+            </a>
+        </div>
+
     </div>
 
 </body>
