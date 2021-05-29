@@ -1,9 +1,5 @@
 package io.github.siaust.web_quiz_app.Controller;
 
-
-import java.util.Map;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import org.slf4j.Logger;
@@ -17,8 +13,6 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.context.request.WebRequest;
-
 
 @Controller
 public class MyErrorController implements ErrorController {
@@ -30,6 +24,9 @@ public class MyErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
+        // TODO: Add error detail to log message
+        log.info("An error occured");
+
         ServletWebRequest webRequest = new ServletWebRequest(request);
         model.addAllAttributes(errorAttributes
             .getErrorAttributes(webRequest, 

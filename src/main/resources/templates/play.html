@@ -3,16 +3,33 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <title>Play quiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="/css/play.css">
+    <!-- Meta tags for sharing to Twitter and Facebook, adds info to cards -->
+    <meta property="og:title" content="Quiz Time Web App">
+    <meta property="og:description" content="Play and share user created quizzes, and make your own!">
+    <meta property="og:image" content="https://spring-web-quiz.herokuapp.com/img/share-card.png">
+    <meta property="og:url" content="https://spring-web-quiz.herokuapp.com/">
+    <meta name="twitter:card" content="summary_large_image">
 
+    <meta property="og:site_name" content="Quiz Time Ltd">
+    <meta name="twitter:image:alt" content="Quiz Time logo card">
+
+    <!-- Local Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/play.css?version=2">
+
+    <!-- Font Awesome   -->
+    <script src="https://kit.fontawesome.com/3041f05cf0.js" crossorigin="anonymous"></script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -47,6 +64,19 @@
         <div class="center">
             <a th:href="@{/}">
                 <button>Home</button>
+            </a>
+            <button class="share-btn">Share</button>
+            <a href="http://twitter.com/share?text=Testing%20from%20web%20quiz&url=https://spring-web-quiz.herokuapp.com/"
+                target="_blank" rel="noreferrer noopener">
+                <button class="tw-btn">
+                    <i class="fab fa-twitter"></i>
+                </button>
+            </a>
+            <a href="http://www.facebook.com/sharer.php?u=https://spring-web-quiz.herokuapp.com/"
+                target="_blank" rel="noreferrer noopener">
+                <button class="fb-btn">
+                    <i class="fab fa-facebook-square"></i>
+                </button>
             </a>
         </div>
 
