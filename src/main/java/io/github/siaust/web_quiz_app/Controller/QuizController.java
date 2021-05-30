@@ -104,15 +104,22 @@ public class QuizController {
 
     /* Mapping for user request GET all quizzes */ // todo: add requestParams for paging
     @RequestMapping(value = "/api/quizzes", method = RequestMethod.GET)
-    public Page<Quiz> getAllQuizzes(@RequestParam(defaultValue = "0") int pageNo,
-                                    @RequestParam(defaultValue = "10") int pageSize,
-                                    @RequestParam(defaultValue = "id") String sortBy) {
+    public Page<Quiz> getAllQuizzes(
+            @RequestParam(defaultValue = "RANDOM") String topic,
+            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
 
-        System.out.println("pageNo: " + pageNo + "\npageSize: " + pageSize + "\nsortBy: " + sortBy);
+        log.info(
+            "\ntopic: " + topic +
+            "\npageNo: " + pageNo + 
+            "\npageSize: " + pageSize + 
+            "\nsortBy: " + sortBy);
 
-        return QuizService.getQuizzes(pageNo, pageSize, sortBy);
+        return QuizService.getQuizzes(topic, pageNo, pageSize, sortBy);
     }
 
+    /* TODO: Remove */
     @RequestMapping(value = "/api/quizzes/completed", method = RequestMethod.GET)
     public Page<CompletedQuizzes> getAllCompletions(@RequestParam(defaultValue = "0") int pageNo,
                                                     @RequestParam(defaultValue = "10") int pageSize,

@@ -95,7 +95,7 @@ ul {
     padding: 0;
 }
 
-/* classes */
+/* *** classes *** */
 
 .answer-correct {
     background-color: lightgreen;
@@ -116,6 +116,53 @@ ul {
     color: cornflowerblue;
 
     /*margin: 1rem;*/
+}
+
+.flex {
+    display: flex;
+}
+
+/* Play group buttons */
+
+.label-btn {
+    margin: 5px 0 5px 5px;
+
+    border-radius: 5px 0 0 5px;
+}
+
+.label-btn:active {
+    position: initial;
+
+    box-shadow: 4px 4px gray;
+    
+}
+
+.go-play {
+    width: 4rem;
+
+    margin: 5px 5px 5px 0;
+
+    border-radius: 0 5px 5px 0;
+    border-width: 2px 2px 2px 1px;
+}
+
+#topics {
+    height: 3rem;
+    
+    border: 2px solid white;
+    border-width: 2px 1px 2px 0;
+    background-color: cornflowerblue;
+    box-shadow: 4px 4px gray;
+    margin: 5px 0 5px 0;
+
+    font-family: Recursive, monospace;
+    font-size: large;
+    color: white;
+
+}
+
+#topics:focus-visible {
+    outline: none;
 }
 
 /* Footer info, Buy Me a Coffee btn */

@@ -20,9 +20,15 @@ let USER_ANSWERS = []
 let currentQuestion
 let score = 0
 
+let urlParams = new URLSearchParams(location.search)
+let topic = urlParams.get('topic')
+
 // Get quizzes from API // todo json object has changed properties
-getQuizzesRequest.open("GET", "/api/quizzes", true)
+getQuizzesRequest.open("GET", "/api/quizzes?topic=" + topic, true) /* TODO: enable pagination */
 getQuizzesRequest.onload = function () {
+
+    console.log('/play?topic=' + urlParams.get('topic'))
+
     let data = JSON.parse(this.response)
     console.log(this.response)
 
