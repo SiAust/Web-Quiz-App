@@ -54,10 +54,13 @@ public class TemplateController {
         return "welcome";
     }
 
+    /* Play quiz endpoints */
+
     @RequestMapping(value = "/play", method = RequestMethod.GET)
     public String getPlay() {
         return "play";
     }
+    
     /* *** Registration handling *** */
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)

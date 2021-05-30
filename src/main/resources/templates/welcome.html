@@ -75,8 +75,21 @@
 
         <div class="welcome-menu">
 
-            <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
-                <a th:href="@{/play}"><button>Play</button></a>
+            <div class="flex" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+                <button class="label-btn">Play</button>
+                <form class="flex" th:action="@{/play}">
+                    <select name="topic" id="topics">
+                        <option value="RANDOM">Random</option>
+                        <option value="SPORT">Sport</option>
+                        <option value="GENERAL">General</option>
+                        <option value="MATH">Math</option>                                                          
+                        <option value="CODING">Coding</option>
+                        <option value="SCIENCE">Science</option>
+                        <option value="TOTTENHAM">Tottenham</option>
+                    </select>
+                    <button class="go-play" type="submit"><i class="fas fa-play"></i></button>
+                </form>
+
             </div>
 
             <div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">

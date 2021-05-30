@@ -36,17 +36,15 @@ public class QuizService {
      * @param pageSize Number of items in a page
      * @param sortBy The method of sorting, by "ID", any other column property I guess
      * */
-    public static Page<Quiz> getQuizzes(int pageNo, int pageSize, String sortBy) {
+    public static Page<Quiz> getQuizzes(String topic, int pageNo, int pageSize, String sortBy) {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        return quizRepository.findAll(pageable);
-
-//        if (pagedResult.hasContent()) {
-//            return pagedResult;
-//        } else {
-//            throw new QuizNotFoundException("No quizzes to pages?");
-//        }
+        if ("RANDOM".equals(topic)) {
+            return quizRepository.findAll(pageable);
+        } else {
+            return quizRepository.findAllByTopic(topic, pageable);
+        }
     }
 
     /** @param  quizId id of the Quiz
