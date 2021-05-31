@@ -17,11 +17,17 @@
 }
 
 #result-info {
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
 
     height: 3rem;
+
+}
+
+.hidden {
+    background-color: darkslateblue;
+    box-shadow: none;
 }
 
 .correct-msg {

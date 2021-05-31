@@ -49,7 +49,8 @@ function updateView(quiz) {
     removeAllChildren(OPTIONS_CONT)
 
     // Hide result info
-    RESULT_INFO.style.display = "none"
+    RESULT_INFO.classList.value = "hidden"
+    RESULT_MSG.style.display = "none"
 
     TOPIC.innerHTML = quiz.topic
     SUBMITTED_BY.innerHTML = quiz.createdBy.userName
@@ -101,10 +102,14 @@ const toggleNextQBTN = (toggle) => {
         NEXT_Q_BTN.disabled = false
         NEXT_Q_BTN.style.backgroundColor = "cornflowerblue"
         NEXT_Q_BTN.style.border = "2px white solid"
+        NEXT_Q_BTN.style.background = "linear-gradient(135deg, var(--left), var(--right)"
+        NEXT_Q_BTN.style.cursor = "pointer"
     } else { // turn "off" next button
         NEXT_Q_BTN.disabled = true
-        NEXT_Q_BTN.style.backgroundColor = "lightgrey"
+        NEXT_Q_BTN.style.background = "lightgrey"
         NEXT_Q_BTN.style.border = "2px grey dotted"
+        NEXT_Q_BTN.style.cursor = "initial"
+
     }
 };
 
@@ -124,17 +129,18 @@ ANSWER_BTN.addEventListener("click", function () { // todo error if answer corre
             USER_SCORE_SPAN.innerHTML = score.toString()
             highlightCorrectAnswers(jsonResponse.answers)
             // show result message
-            RESULT_INFO.style.display = "flex"
+            // RESULT_INFO.style.display = "flex"
             RESULT_INFO.classList.value = "correct-msg"
             RESULT_MSG.textContent = "CORRECT, WELL DONE!"
         } else {
             // show result message
-            RESULT_INFO.style.display = "flex"
+            // RESULT_INFO.style.display = "flex"
             RESULT_INFO.classList.value = "incorrect-msg"
             RESULT_MSG.textContent = "INCORRECT!"
             highlightCorrectAnswers(jsonResponse.answers)
             highlightIncorrectAnswers(jsonResponse.answers)
         }
+        RESULT_MSG.style.display = "flex"
         USER_ANSWERS = [] // answers need to be emptied after each question to prevent errors
     }
     let json = []
@@ -154,10 +160,13 @@ const toggleAnsBTN = (toggle) => {
         ANSWER_BTN.disabled = false
         ANSWER_BTN.style.backgroundColor = "cornflowerblue"
         ANSWER_BTN.style.border = "2px white solid"
+        ANSWER_BTN.style.background = "linear-gradient(135deg, var(--left), var(--right)"
+        ANSWER_BTN.style.cursor = "pointer"
     } else { // turn "off" next button
         ANSWER_BTN.disabled = true
-        ANSWER_BTN.style.backgroundColor = "lightgrey"
+        ANSWER_BTN.style.background = "lightgrey"
         ANSWER_BTN.style.border = "2px grey dotted"
+        ANSWER_BTN.style.cursor = "initial"
     }
 };
 

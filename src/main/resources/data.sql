@@ -200,7 +200,7 @@ VALUES
     (50, '1500 MPH', 13), 
     (51, '22 200 MPH', 13), 
     (52, '670 MPS', 13), 
-    (53, '17 150 MPH', 10);
+    (53, '17 150 MPH', 13);
 
 MERGE INTO answer (id, answer, quiz_id)
 VALUES (17, 4, 13);
@@ -256,7 +256,7 @@ VALUES
 
 -- 
 MERGE INTO quiz_table (id, is_multiple_choice, text, timestamp, topic, created_by_id) 
-VALUES (17, false, 'What polymorphism in Java', CURRENT_TIMESTAMP, 'CODING', 1);
+VALUES (17, false, 'What is polymorphism in Java', CURRENT_TIMESTAMP, 'CODING', 1);
 
 MERGE INTO options_table (id, option, quiz_id)
 VALUES 
