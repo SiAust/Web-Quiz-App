@@ -21,7 +21,7 @@
     justify-content: center;
     align-items: center;
 
-    height: 3rem;
+    height: 4rem;
 
 }
 
@@ -35,11 +35,18 @@
     box-shadow: inset 0.1rem 0 0 0 green, inset -0.1rem 0 0 0 green;
 }
 
+#correct {
+    display: none;
+}
+
 .incorrect-msg {
     background-color: indianred;
     box-shadow: inset 0.1rem 0 0 0 red, inset -0.1rem 0 0 0 red;
 }
 
+#incorrect {
+    display: none;
+}
 
 
 .fb-btn {
@@ -61,7 +68,7 @@
 }
 
 
-#result-msg {
+/* #result-msg {
     animation: 2s ease-in-out result-animation;   
     animation-iteration-count: 3;
 }
@@ -69,4 +76,4 @@
 @keyframes result-animation {
     50% {font-size: x-large}
 }
-
+ */

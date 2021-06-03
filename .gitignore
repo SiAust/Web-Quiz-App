@@ -36,6 +36,8 @@ src/test/
 quizdb.mv.db
 quizdb.trace.db
 bin
+answer.scss
+answer.css.map
 
 # Gradle
 <<<<<<< HEAD

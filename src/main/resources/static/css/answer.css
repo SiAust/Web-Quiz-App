@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
+.wrapper {
+  width: 100%;
+  text-align: center;
+}
+#correct .wrapper span {
+  -webkit-text-stroke-width: 1.25px;
+  -webkit-text-stroke-color: #000;
+  font-size: 2rem;
+  text-shadow: 1rem 1rem green;
+  transform: translate(0, -50%) rotate(4deg);
+  -webkit-animation: jump 2s ease-in-out infinite;
+          animation: jump 2s ease-in-out infinite;
+  display: inline-block;
+  font-family: "Titan One", cursive;
+  color: #fff;
+}
+
+#incorrect .wrapper span {
+  -webkit-text-stroke-width: 1.25px;
+  -webkit-text-stroke-color: #000;
+  font-size: 2rem;
+  text-shadow: 0 0.2rem indianred;
+  -webkit-animation: slide 4s cubic-bezier(0, 1.36, 1, 0.04) infinite;
+          animation: slide 4s cubic-bezier(0, 1.36, 1, 0.04) infinite;
+  display: inline-block;
+  font-family: "Titan One", cursive;
+  color: #fff;
+}
+
+#correct .wrapper span:nth-child(1) {
+  -webkit-animation-delay: 120ms;
+          animation-delay: 120ms;
+}
+#correct .wrapper span:nth-child(2) {
+  -webkit-animation-delay: 240ms;
+          animation-delay: 240ms;
+}
+#correct .wrapper span:nth-child(3) {
+  -webkit-animation-delay: 360ms;
+          animation-delay: 360ms;
+}
+#correct .wrapper span:nth-child(4) {
+  -webkit-animation-delay: 480ms;
+          animation-delay: 480ms;
+}
+#correct .wrapper span:nth-child(5) {
+  -webkit-animation-delay: 600ms;
+          animation-delay: 600ms;
+}
+#correct .wrapper span:nth-child(6) {
+  -webkit-animation-delay: 720ms;
+          animation-delay: 720ms;
+}
+#correct .wrapper span:nth-child(7) {
+  -webkit-animation-delay: 840ms;
+          animation-delay: 840ms;
+}
+
+
+#incorrect .wrapper span:nth-child(1) {
+  -webkit-animation-delay: 120ms;
+          animation-delay: 120ms;
+}
+#incorrect .wrapper span:nth-child(2) {
+  -webkit-animation-delay: 240ms;
+          animation-delay: 240ms;
+}
+#incorrect .wrapper span:nth-child(3) {
+  -webkit-animation-delay: 360ms;
+          animation-delay: 360ms;
+}
+#incorrect .wrapper span:nth-child(4) {
+  -webkit-animation-delay: 480ms;
+          animation-delay: 480ms;
+}
+#incorrect .wrapper span:nth-child(5) {
+  -webkit-animation-delay: 600ms;
+          animation-delay: 600ms;
+}
+#incorrect .wrapper span:nth-child(6) {
+  -webkit-animation-delay: 720ms;
+          animation-delay: 720ms;
+}
+#incorrect .wrapper span:nth-child(7) {
+  -webkit-animation-delay: 840ms;
+          animation-delay: 840ms;
+}
+#incorrect .wrapper span:nth-child(8) {
+  -webkit-animation-delay: 1000ms;
+          animation-delay: 1000ms;
+}
+#incorrect .wrapper span:nth-child(9) {
+  -webkit-animation-delay: 1120ms;
+          animation-delay: 1120ms;
+}
+
+@-webkit-keyframes jump {
+  50% {
+    transform: translate(0, 0) rotate(-4deg);
+  }
+}
+
+@keyframes jump {
+   50% {
+    transform: translate(0, 0) rotate(-4deg);
+  }
+}
+
+@-webkit-keyframes slide {
+   50% {
+    transform: translate(0, 0) rotate(0deg);
+    text-shadow: 0 1rem red;
+  }
+}
+
+@keyframes slide {
+  50% {
+    text-shadow: 0 1rem red;
+  }
+}

@@ -13,107 +13,105 @@
 
 <body>
 
-    <div class="sub-container main">
+    <div class="container">
 
-        <form th:action="@{/create}" th:object="${quiz}" method="post">
+        <div class="sub-container main">
 
-<!-- Title textarea -->
-<!--            <div class="flex-column">-->
-<!--                <label for="title">Title</label>-->
-<!--                <textarea id="title" type="text" class="form-control" th:field="*{title}" rows="1">-->
-<!--                </textarea>-->
-<!--            </div>-->
+            <h1>Create Your Question</h1>
 
-<!-- Topic select -->
-            <div>
-                <label>
-                    Select topic:
-                    <select th:field="*{topic}">
+            <form th:action="@{/create}" th:object="${quiz}" method="post">
+    <!-- Topic select -->
+                <div class="flex center">
+                    
+                    <label for="topics" class="select-lbl">Select topic:</label> 
+                    <select th:field="*{topic}" class="select end">
                         <option th:each="topic : ${allTopics}" th:value="${topic}" th:text="${topic}">
                         </option>
                     </select>
-                </label>
-            </div>
-
-<!-- Question textarea -->
-            <div class="flex-column">
-                <label for="text">Question</label>
-                <textarea id="text" class="form-control" th:field="*{text}" rows="4">
-                </textarea>
-            </div>
-
-<!-- Multiple choice radio buttons -->
-
-            <div class="col-md-6">
-
-                <div>
-                    <label for="isMultipleChoice">Does the question have more than one answer?</label>
-                    <input type="checkbox" th:field="*{isMultipleChoice}" id="isMultipleChoice">
+                    
                 </div>
 
-            </div>
+    <!-- Question textarea -->
+                <div class="flex-column">
+                    <label for="text">Question</label>
+                    <textarea id="text" class="form-control" th:field="*{text}" rows="4">
+                    </textarea>
+                </div>
 
-<!-- Options + answers (selected by checkbox) -->
-            <div class="flex-column">
+    <!-- Multiple choice radio buttons -->
 
-                <table class="flex-column">
-                    <tr>
-                        <th></th>
-                        <th>Option</th>
-                        <th>Answer</th>
-                    </tr>
+                <div class="col-md-6">
 
-                    <tr  th:each="option, rowStat : *{options}">
+                    <div>
+                        <label for="isMultipleChoice">Does the question have more than one answer?</label>
+                        <input type="checkbox" th:field="*{isMultipleChoice}" id="isMultipleChoice">
+                    </div>
 
-                        <td>
-                            <label th:for="option + ${rowStat.index}"
-                                   th:text="${rowStat.index + 1}"></label>
-                        </td>
+                </div>
 
-                        <td>
-                            <input type="text"
-                                   th:field="*{options[__${rowStat.index}__].option}"
-                                   th:id="option + ${rowStat.index}">
-                        </td>
+    <!-- Options + answers (selected by checkbox) -->
+                <div class="flex-column">
 
-                        <td>
-                            <input type="checkbox"
-                                   th:field="*{answers[__${rowStat.index}__].answer}"
-                                   th:value="${rowStat.index + 1}">
-                            <!-- If above checkbox unchecked, hidden checked will return a value
-                                 rather than null, prevents bindingResult error -->
-                            <input type="hidden"
+                    <table class="flex-column">
+                        <tr>
+                            <th></th>
+                            <th>Option</th>
+                            <th>Answer</th>
+                        </tr>
+
+                        <tr  th:each="option, rowStat : *{options}">
+
+                            <td>
+                                <label th:for="option + ${rowStat.index}"
+                                    th:text="${rowStat.index + 1}"></label>
+                            </td>
+
+                            <td>
+                                <input type="text"
+                                    th:field="*{options[__${rowStat.index}__].option}"
+                                    th:id="option + ${rowStat.index}">
+                            </td>
+
+                            <td>
+                                <input type="checkbox"
                                     th:field="*{answers[__${rowStat.index}__].answer}"
-                                    th:value="0">
-                        </td>
+                                    th:value="${rowStat.index + 1}">
+                                <!-- If above checkbox unchecked, hidden checked will return a value
+                                    rather than null, prevents bindingResult error -->
+                                <input type="hidden"
+                                        th:field="*{answers[__${rowStat.index}__].answer}"
+                                        th:value="0">
+                            </td>
 
-                    </tr>
+                        </tr>
 
-                </table>
+                    </table>
 
-                <div th:if="${#fields.hasErrors('*')}">
-                    <div class="error"
-                         th:each="err : ${#fields.errors('*')}"
-                         th:text="${err}"></div>
+                    <div th:if="${#fields.hasErrors('*')}">
+                        <div class="error"
+                            th:each="err : ${#fields.errors('*')}"
+                            th:text="${err}"></div>
+                    </div>
+
+                    <div class="flex-row">
+                        <button type="submit" name="addOption">Add option</button>
+                        <button type="submit" name="removeOption"
+                            th:value="*{options.size() -1}">Remove option</button>
+                    </div>
+
                 </div>
 
-                <div class="flex-row">
-                    <button type="submit" name="addOption">Add option</button>
-                    <button type="submit" name="removeOption"
-                        th:value="*{options.size() -1}">Remove option</button>
+    <!-- Submit form -->
+                <div class="center">
+                    <a th:href="@{/}">
+                        <button type="submit" name="save">Save Quiz</button>
+                    </a>
                 </div>
 
-            </div>
+            </form>
 
-<!-- Submit form -->
-            <div class="center">
-                <a th:href="@{/}">
-                    <button type="submit" name="save">Save Quiz</button>
-                </a>
-            </div>
-
-        </form>
-
+        </div>
+        
     </div>
 
     <div class="center">
@@ -122,6 +120,7 @@
         </a>
     </div>
 
+  
 </body>
 
 </html>
