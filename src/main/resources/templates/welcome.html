@@ -58,7 +58,9 @@
 
     <div class="sub-container main">
 
-        <p class="big-text">Quiz Time!</p>
+        <div class="center">
+            <img src="/img/quiz-logo.png" id="logo" alt="Website logo">
+        </div>
 
         <p>
             Welcome to Quiz Time! Here you can test your knowledge with user
@@ -78,7 +80,7 @@
             <div class="flex" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
                 <button class="label-btn">Play</button>
                 <form class="flex" th:action="@{/play}">
-                    <select name="topic" id="topics">
+                    <select name="topic" class="select mid">
                         <option value="RANDOM">Random</option>
                         <option value="SPORT">Sport</option>
                         <option value="GENERAL">General</option>

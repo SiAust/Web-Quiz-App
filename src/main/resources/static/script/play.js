@@ -5,26 +5,33 @@ const OPTIONS_CONT = document.getElementById("options")
 const CURRENT_Q_SPAN = document.getElementById("current-question")
 const USER_SCORE_SPAN = document.getElementById("user-score")
 
+// Results
 const RESULT_INFO = document.getElementById("result-info")
 const RESULT_MSG = document.getElementById("result-msg")
+const CORRECT_DIV = document.getElementById('correct')
+const INCORRECT_DIV = document.getElementById('incorrect')
 
 // Buttons
 const ANSWER_BTN = document.getElementById("check-answer")
 const NEXT_Q_BTN = document.getElementById("next-question")
 
+// HTTP Requests
 let getQuizzesRequest = new XMLHttpRequest()
 let postAnswerRequest = new XMLHttpRequest()
+
 let quizzes
 let USER_ANSWERS = []
 
 let currentQuestion
 let score = 0
 
+/* Gets the 'topic' query param from the URL */
 let urlParams = new URLSearchParams(location.search)
 let topic = urlParams.get('topic')
 
-// Get quizzes from API // todo json object has changed properties
+/* Get quizzes from API  */
 getQuizzesRequest.open("GET", "/api/quizzes?topic=" + topic, true) /* TODO: enable pagination */
+/* Execute this code when there's a response */
 getQuizzesRequest.onload = function () {
 
     console.log('/play?topic=' + urlParams.get('topic'))
@@ -51,6 +58,8 @@ function updateView(quiz) {
     // Hide result info
     RESULT_INFO.classList.value = "hidden"
     RESULT_MSG.style.display = "none"
+    CORRECT_DIV.style.display = "none"
+    INCORRECT_DIV.style.display = "none"
 
     TOPIC.innerHTML = quiz.topic
     SUBMITTED_BY.innerHTML = quiz.createdBy.userName
@@ -59,6 +68,7 @@ function updateView(quiz) {
     // TITLE.innerHTML = quiz.title
     QUESTION.innerHTML = quiz.text
     let options = quiz.options
+    /* Create n option elements according to options.length */
     for (let i = 0; i < options.length; i++) {
         let div = document.createElement("div")
         div.className = "option"
@@ -131,12 +141,15 @@ ANSWER_BTN.addEventListener("click", function () { // todo error if answer corre
             // show result message
             // RESULT_INFO.style.display = "flex"
             RESULT_INFO.classList.value = "correct-msg"
-            RESULT_MSG.textContent = "CORRECT, WELL DONE!"
+            // RESULT_MSG.textContent = "CORRECT, WELL DONE!"
+            CORRECT_DIV.style.display = "block"
         } else {
             // show result message
             // RESULT_INFO.style.display = "flex"
             RESULT_INFO.classList.value = "incorrect-msg"
-            RESULT_MSG.textContent = "INCORRECT!"
+            // RESULT_MSG.textContent = "INCORRECT!"
+            INCORRECT_DIV.style.display = "block"
+
             highlightCorrectAnswers(jsonResponse.answers)
             highlightIncorrectAnswers(jsonResponse.answers)
         }

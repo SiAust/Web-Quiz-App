@@ -19,12 +19,6 @@ body {
     background-image: url("/img/question-mark.png");
 }
 
-/* :root {
-    --firstColor: cornflowerblue;
-    --secondColor: slateblue;
-    --thirdColor: cornflowerblue;
-} */
-
 @property --left{
     syntax: '<color>';
     inherits: false;
@@ -193,14 +187,14 @@ ul {
     border-width: 2px 2px 2px 1px;
 }
 
-#topics {
+.select {
     height: 3rem;
     
     border: 2px solid white;
-    border-width: 2px 1px 2px 0;
+    
     background-color: cornflowerblue;
     box-shadow: 4px 4px gray;
-    margin: 5px 0 5px 0;
+    
 
     font-family: Recursive, monospace;
     font-size: large;
@@ -208,9 +202,44 @@ ul {
 
 }
 
-#topics:focus-visible {
+.mid {
+    border-width: 2px 1px 2px 0;
+    margin: 5px 0 5px 0;
+}
+
+.end {
+    border-radius: 0 5px 5px 0;
+    margin: 5px 0 5px 0;
+}
+
+.select:focus-visible {
     outline: none;
 }
+
+/* Create a quiz question  */
+/* TODO refactor CSS DRY */
+.select-lbl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 3rem;
+    width: 8rem;
+
+    border: 2px white solid;
+    border-radius: 5px 0 0 5px;
+    box-sizing: border-box;
+    box-shadow: 4px 4px gray;
+    background-color: cornflowerblue;
+    
+    font-family: Recursive, monospace;
+    font-size: large;
+    color: white;
+    margin: 5px 0 5px 5px;
+    
+}
+
+
 
 /* Footer info, Buy Me a Coffee btn */
 
@@ -353,6 +382,10 @@ ul {
     text-align: center;
 }
 
+#logo {
+    width: 40%;
+}
+
 .welcome-menu {
     display: flex;
     flex-direction: row;
@@ -362,6 +395,7 @@ ul {
 }
 
 /* Media queries */
+
 @media screen and (max-width: 768px) {
 
     .container {
