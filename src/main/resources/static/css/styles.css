@@ -1,4 +1,4 @@
-/* element tags */
+/* Element tags */
 html {
     height: 100%;
 
@@ -115,6 +115,10 @@ input[type="checkbox" i] {
     border-radius: 3px;
 }
 
+label {
+    margin: 0.5rem;
+}
+
 pre {
     white-space: pre-wrap;
     text-align: left;
@@ -123,7 +127,7 @@ pre {
 
 textarea {
     resize: none;
-    /*width: 100%;*/
+    width: 100%;
 
     font-family: Recursive, monospace;
     font-size: large;
@@ -162,118 +166,9 @@ ul {
     display: flex;
 }
 
-/* Play group buttons */
-
-.label-btn {
-    margin: 5px 0 5px 5px;
-    background: cornflowerblue;
-    cursor: initial;
-    border-radius: 5px 0 0 5px;
-}
-
-.label-btn:active {
-    position: initial;
-
-    box-shadow: 4px 4px gray;
-    
-}
-
-.go-play {
-    width: 4rem;
-
-    margin: 5px 5px 5px 0;
-
-    border-radius: 0 5px 5px 0;
-    border-width: 2px 2px 2px 1px;
-}
-
-.select {
-    height: 3rem;
-    
-    border: 2px solid white;
-    
-    background-color: cornflowerblue;
-    box-shadow: 4px 4px gray;
-    
-
-    font-family: Recursive, monospace;
-    font-size: large;
-    color: white;
-
-}
-
-.mid {
-    border-width: 2px 1px 2px 0;
-    margin: 5px 0 5px 0;
-}
-
-.end {
-    border-radius: 0 5px 5px 0;
-    margin: 5px 0 5px 0;
-}
-
-.select:focus-visible {
-    outline: none;
-}
-
-/* Create a quiz question  */
-/* TODO refactor CSS DRY */
-.select-lbl {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 3rem;
-    width: 8rem;
-
-    border: 2px white solid;
-    border-radius: 5px 0 0 5px;
-    box-sizing: border-box;
-    box-shadow: 4px 4px gray;
-    background-color: cornflowerblue;
-    
-    font-family: Recursive, monospace;
-    font-size: large;
-    color: white;
-    margin: 5px 0 5px 5px;
-    
-}
-
-
-
-/* Footer info, Buy Me a Coffee btn */
-
-.slant {
-    position: absolute;
-
-    z-index: -1;
-
-    background-color: white;
-
-    width: 100%;
-    height: 100%;
-
-    /* box-shadow: 0px -2px 2px 0 white; */
-
-    transform: skewY(358deg);
-    -ms-transform: skewY(358deg);
-    transform-origin: top left;
-}
-
-.bmc-btn {
-    position: relative;
-    border: 2px white solid !important;
-    border-radius: 5px !important;
-    box-shadow: 4px 4px gray;
-}
-
-.bmc-btn:active {
-    box-shadow: none;
-    top: 4px;
-    left: 4px;
-}
-
 .container {
+    position: relative;
+
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -378,6 +273,7 @@ ul {
     border-radius: 5px;
 
     background-color: darkslateblue;
+    background: linear-gradient(135deg, darkslateblue, cornflowerblue);
 
     text-align: center;
 }
@@ -392,6 +288,139 @@ ul {
     justify-content: space-evenly;
 
     margin: 2rem;
+}
+
+/* ___ Play quiz group buttons */
+
+.label-btn {
+    margin: 5px 0 5px 5px;
+    background: cornflowerblue;
+    cursor: initial;
+    border-radius: 5px 0 0 5px;
+}
+
+.label-btn:active {
+    position: initial;
+
+    box-shadow: 4px 4px gray;
+    
+}
+
+.go-play {
+    width: 4rem;
+
+    margin: 5px 5px 5px 0;
+
+    border-radius: 0 5px 5px 0;
+    border-width: 2px 2px 2px 1px;
+}
+
+.select {
+    height: 3rem;
+    
+    border: 2px solid white;
+    
+    background-color: cornflowerblue;
+    box-shadow: 4px 4px gray;
+    
+
+    font-family: Recursive, monospace;
+    font-size: large;
+    color: white;
+
+}
+
+.mid {
+    border-width: 2px 1px 2px 0;
+    margin: 5px 0 5px 0;
+}
+
+.end {
+    border-radius: 0 5px 5px 0;
+    border-width: 2px 2px 2px 0;
+    margin: 5px 0 5px 0;
+}
+
+.select:focus-visible {
+    outline: none;
+}
+
+/* ___ create.html styles  */
+/* TODO refactor CSS DRY */
+.select-lbl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 3rem;
+    width: 8rem;
+
+    border: 2px white solid;
+    border-radius: 5px 0 0 5px;
+    box-sizing: border-box;
+    box-shadow: 4px 4px gray;
+    background-color: cornflowerblue;
+    
+    font-family: Recursive, monospace;
+    font-size: large;
+    color: white;
+    margin: 5px 0 5px 5px;
+    
+}
+
+.create-form {
+    width: 50%;
+    margin: auto;
+}
+
+.create-op-grp {
+    border: 1px white solid;
+    border-radius: 5px;
+    
+    padding: 1rem;
+    margin: 1rem 0 1rem 0;
+}
+
+.logo-pos-tr {
+    width: 17rem;
+    position: absolute;
+    top: 1rem;
+    left: -4rem;
+}
+
+
+/* ___ Footer */
+
+.slant {
+    position: absolute;
+
+    z-index: -1;
+
+    background-color: white;
+
+    width: 100%;
+    height: 100%;
+
+    /* box-shadow: 0px -2px 2px 0 white; */
+
+    transform: skewY(358deg);
+    -ms-transform: skewY(358deg);
+    transform-origin: top left;
+}
+
+/* ___ Buy Me a Coffee btn */
+
+.bmc-btn {
+    position: relative;
+    border: 2px white solid !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px gray;
+}
+
+.bmc-btn:active {
+    box-shadow: none;
+    top: 4px;
+    left: 4px;
 }
 
 /* Media queries */

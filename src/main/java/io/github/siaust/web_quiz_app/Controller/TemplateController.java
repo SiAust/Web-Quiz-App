@@ -117,10 +117,11 @@ public class TemplateController {
 
     /* Called when user submits form */
     @RequestMapping(value = "/create", params = {"save"})
-    public String saveQuizFromForm(@Valid final Quiz quiz, BindingResult bindingResult) {
+    public String saveQuizFromForm(@Valid final Quiz quiz, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             log.info("Binding result error: {}", quiz);
             bindingResult.getAllErrors().forEach(objectError -> log.info("BindingResult error: {}", objectError));
+            model.addAttribute("allTopics", Arrays.asList(Topic.ALL));
             return "create";
         }
         /* Answer values at 0 are default values, checkbox was unchecked, and should be removed */
@@ -140,7 +141,8 @@ public class TemplateController {
 
     /* Called when client selects submit add option button */
     @RequestMapping(value = "/create", params = {"addOption"})
-    public String addOptionToForm(@Valid final Quiz quiz, BindingResult bindingResult) {
+    public String addOptionToForm(@Valid final Quiz quiz, BindingResult bindingResult, Model model) {
+        model.addAttribute("allTopics", Arrays.asList(Topic.ALL));
         if (bindingResult.hasFieldErrors("options")) {
             log.info("Binding result error on options");
             bindingResult.getFieldErrors().forEach(fieldError -> System.out.println("Field Error: " + fieldError));
@@ -155,7 +157,8 @@ public class TemplateController {
 
     @RequestMapping(value = "/create", params = {"removeOption"})
     public String removeOptionFromForm(@Valid final Quiz quiz, BindingResult bindingResult,
-                                       HttpServletRequest request) {
+                                       HttpServletRequest request, Model model) {
+        model.addAttribute("allTopics", Arrays.asList(Topic.ALL));
         int optionsSize = quiz.getOptions().size();
         if (optionsSize == 2) {
             bindingResult.addError(new FieldError("options", "options"

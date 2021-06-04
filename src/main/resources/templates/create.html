@@ -3,11 +3,21 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+
     <title>Create a Quiz</title>
+
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Local CSS -->
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+    <!-- Font Awesome   -->
+    <script src="https://kit.fontawesome.com/3041f05cf0.js" crossorigin="anonymous"></script>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
+
 <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
 </head>
 
@@ -15,11 +25,13 @@
 
     <div class="container">
 
+        <img class="logo-pos-tr" src="/img/quiz-logo.png" alt="Quiz Time logo">
+
         <div class="sub-container main">
 
             <h1>Create Your Question</h1>
 
-            <form th:action="@{/create}" th:object="${quiz}" method="post">
+            <form class="create-form" th:action="@{/create}" th:object="${quiz}" method="post">
     <!-- Topic select -->
                 <div class="flex center">
                     
@@ -32,7 +44,7 @@
                 </div>
 
     <!-- Question textarea -->
-                <div class="flex-column">
+                <div class="flex-column create-op-grp">
                     <label for="text">Question</label>
                     <textarea id="text" class="form-control" th:field="*{text}" rows="4">
                     </textarea>
@@ -40,31 +52,27 @@
 
     <!-- Multiple choice radio buttons -->
 
-                <div class="col-md-6">
-
-                    <div>
-                        <label for="isMultipleChoice">Does the question have more than one answer?</label>
-                        <input type="checkbox" th:field="*{isMultipleChoice}" id="isMultipleChoice">
-                    </div>
-
+                <div class="create-op-grp">
+                    <label for="isMultipleChoice">Does the question have more than one answer?</label>
+                    <input type="checkbox" th:field="*{isMultipleChoice}" id="isMultipleChoice">
                 </div>
 
     <!-- Options + answers (selected by checkbox) -->
-                <div class="flex-column">
+                <div class="flex-column create-op-grp">
 
                     <table class="flex-column">
                         <tr>
-                            <th></th>
+                            <!-- <th></th> -->
                             <th>Option</th>
                             <th>Answer</th>
                         </tr>
 
                         <tr  th:each="option, rowStat : *{options}">
 
-                            <td>
+                            <!-- <td>
                                 <label th:for="option + ${rowStat.index}"
                                     th:text="${rowStat.index + 1}"></label>
-                            </td>
+                            </td> -->
 
                             <td>
                                 <input type="text"
@@ -87,22 +95,25 @@
 
                     </table>
 
-                    <div th:if="${#fields.hasErrors('*')}">
-                        <div class="error"
-                            th:each="err : ${#fields.errors('*')}"
-                            th:text="${err}"></div>
-                    </div>
+                 
 
                     <div class="flex-row">
-                        <button type="submit" name="addOption">Add option</button>
+                        <button type="submit" name="addOption"><span class="fas fa-plus"></span> Add</button>
                         <button type="submit" name="removeOption"
-                            th:value="*{options.size() -1}">Remove option</button>
+                            th:value="*{options.size() -1}"><span class="fas fa-minus"></span> Remove</button>
                     </div>
 
                 </div>
 
-    <!-- Submit form -->
-                <div class="center">
+    <!-- Submit form --> 
+                <div class="flex-column" th:if="${#fields.hasErrors('*')}">
+                    <div class="error"
+                        th:each="err : ${#fields.errors('*')}"
+                        th:text="${err}">
+                    </div>
+                </div>
+
+                <div class="center">  
                     <a th:href="@{/}">
                         <button type="submit" name="save">Save Quiz</button>
                     </a>

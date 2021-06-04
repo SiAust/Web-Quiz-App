@@ -13,33 +13,37 @@
 
 <body>
 
-<div class="sub-container main">
+  <div class="container">
 
-  <div>
-    <strong>Topic</strong>
-    <p th:text="${quiz.topic}"></p>
-  </div>
+    <div class="sub-container main">
 
-  <div>
-    <strong>Question</strong>
-    <p th:text="${quiz.text}"></p>
-  </div>
+      <div>
+        <strong>Topic</strong>
+        <p th:text="${quiz.topic}"></p>
+      </div>
 
-  <div>
-    <strong>Options</strong>
-    <div th:each="option, rowStat : ${quiz.options}">
-      <p th:text="${quiz.options[__${rowStat.index}__].option}"></p>
+      <div>
+        <strong>Question</strong>
+        <p th:text="${quiz.text}"></p>
+      </div>
+
+      <div>
+        <strong>Options</strong>
+        <div th:each="option, rowStat : ${quiz.options}">
+          <p th:text="${quiz.options[__${rowStat.index}__].option}"></p>
+        </div>
+      </div>
+
+      <div>
+        <!-- todo th:if statement format string answer/s conditional on answers > 1 ? -->
+        <strong>Correct Answer(s)</strong>
+        <div th:each="answer, rowStat : ${quiz.answers}">
+          <p th:text="${quiz.options[answer.answer -1].option}"></p>
+        </div>
+      </div>
+
     </div>
-  </div>
-
-  <div>
-    <!-- todo th:if statement format string answer/s conditional on answers > 1 ? -->
-    <strong>Correct Answer(s)</strong>
-    <div th:each="answer, rowStat : ${quiz.answers}">
-      <p th:text="${quiz.options[answer.answer -1].option}"></p>
-    </div>
-  </div>
-
+    
 </div>
 
 <div class="center">
