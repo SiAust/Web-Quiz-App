@@ -273,9 +273,12 @@ ul {
     border-radius: 5px;
 
     background-color: darkslateblue;
-    background: linear-gradient(135deg, darkslateblue, cornflowerblue);
 
     text-align: center;
+}
+
+.gradient {
+    background: linear-gradient(135deg, darkslateblue, cornflowerblue);
 }
 
 #logo {
