@@ -1,6 +1,7 @@
 package io.github.siaust.web_quiz_app.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Component
 @Entity
 @SequenceGenerator(name = "userSeq", initialValue = 2)
+@Table(name = "user_table")
 public class User {
 
     @Id
