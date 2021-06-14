@@ -8,6 +8,7 @@ import io.github.siaust.web_quiz_app.Service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,13 @@ import java.util.*;
 
 @Controller
 public class TemplateController {
+
+    @Value("${jdbc.database.url}")
+    String datasourceURL;
+    @Value("${jdbc.database.password}")
+    String datasourcePass;
+    @Value("${jdbc.database.username}")
+    String datasourceUser;
 
     private final CompletedQuizzesRepository completedQuizzesRepository;
 
@@ -42,6 +50,10 @@ public class TemplateController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getWelcome(@RequestParam(value = "name", defaultValue = "anon")
                                      String name, Model model) {
+        log.info("DATASOURCE_URL: {}", datasourceURL);
+        log.info("DATASOURCE_PASS: {}", datasourcePass);
+        log.info("DATASOURCE_USER: {}", datasourceUser);
+        
         model.addAttribute("name", name);
         /* If the user isn't anonymous, add completedQuizzes to the model */
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
