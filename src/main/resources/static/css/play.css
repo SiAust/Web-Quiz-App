@@ -77,3 +77,77 @@
     50% {font-size: x-large}
 }
  */
+
+ /* ================
+ ___ Scoreboard
+ ===================*/
+.scoreboard {
+    position: absolute;
+    top: 12rem;
+    right: 17rem;
+}
+
+.scoreboard svg {
+    position: absolute;
+
+    overflow: visible;
+
+    height: 15rem;
+}
+
+#outer {
+    position: absolute;
+    fill: #6495ed;
+
+    stroke: slateblue;
+    stroke-width: 12px;
+
+
+
+    transform-origin: center;
+    animation: 
+                drawStroke 1s linear 4s forwards,
+                spin 4s,
+                scale 2s;
+/*   animation: spin 6s ease; */
+}
+
+#inner {
+    fill: white;
+
+    stroke: slateblue;
+    stroke-width: 12px;
+  /*   position: absolute; */
+}
+  
+  
+@keyframes drawStroke {
+    50% {
+        stroke-dasharray: 5510px;
+        stroke-dashoffset: -5510px;
+    }
+    100%{
+        stroke-dashoffset: 0;  
+    } 
+}
+
+@keyframes spin {
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes scale {
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.scoreboard .big-text {
+    position: absolute;
+    top: 2rem;
+    right: -17rem;
+    z-index: 1;
+}
+  
+  

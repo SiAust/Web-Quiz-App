@@ -265,6 +265,8 @@ ul {
     align-content: center;
     justify-content: center;
 
+    position: relative;
+
     margin: 0 auto 10px auto;
     padding: 1rem;
     width: 100%;
