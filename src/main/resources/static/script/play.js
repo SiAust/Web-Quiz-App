@@ -10,6 +10,7 @@ const RESULT_INFO = document.getElementById("result-info")
 const RESULT_MSG = document.getElementById("result-msg")
 const CORRECT_DIV = document.getElementById('correct')
 const INCORRECT_DIV = document.getElementById('incorrect')
+const SCOREBOARD_OUTER = document.getElementById('outer')
 
 // Buttons
 const ANSWER_BTN = document.getElementById("check-answer")
@@ -60,6 +61,9 @@ function updateView(quiz) {
     RESULT_MSG.style.display = "none"
     CORRECT_DIV.style.display = "none"
     INCORRECT_DIV.style.display = "none"
+
+    // Remove animation from scoreboard svg so we can play it again
+    SCOREBOARD_OUTER.style.animation = "none"
 
     TOPIC.innerHTML = quiz.topic
     SUBMITTED_BY.innerHTML = quiz.createdBy.userName
@@ -143,6 +147,9 @@ ANSWER_BTN.addEventListener("click", function () { // todo error if answer corre
             RESULT_INFO.classList.value = "correct-msg"
             // RESULT_MSG.textContent = "CORRECT, WELL DONE!"
             CORRECT_DIV.style.display = "block"
+            SCOREBOARD_OUTER.style.animation = "drawStroke 1s linear 4s forwards, spin 4s, scale 2s"
+            
+            
         } else {
             // show result message
             // RESULT_INFO.style.display = "flex"

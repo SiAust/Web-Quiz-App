@@ -251,6 +251,8 @@ ul {
     justify-content: space-between;
     align-items: center;
 
+    z-index: 1;
+
     height: 2rem;
 
     border: 2px darkslateblue solid;
@@ -264,6 +266,8 @@ ul {
     display: flex;
     align-content: center;
     justify-content: center;
+
+    position: relative;
 
     margin: 0 auto 10px auto;
     padding: 1rem;
@@ -385,6 +389,7 @@ ul {
 }
 
 .logo-pos-tr {
+    z-index: 1;
     width: 17rem;
     position: absolute;
     top: 1rem;
